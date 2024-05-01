@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Logo from "./svg/Logo";
 
-export default function TailorCard() {
+export default function WelcomeCard() {
   return (
     <section className="rounded-xl p-4 bg-[#F1F1F0] flex flex-col justify-between gap-4 md:gap-6">
       <Logo className="mb-4 md:mb-5" />

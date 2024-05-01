@@ -36,22 +36,9 @@ bun test
 ## Run the end to end tests
 
 
+You should use the command `test:e2e` for running the end to end tests.
 
-First you should ensure that the development server is running, the end to end tests runs on localhost.
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-After running the dev server, you should use the command `test:e2e` for running the end to end tests.
 For e2e tests we are using playwright
-
 
 ```bash
 npm run test:e2e

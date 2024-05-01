@@ -4,6 +4,7 @@
 
 :root {
   color-scheme: light; /* after finish the styles change this to light dark to apply dark mode*/
+  --tailor-blue: #264beb;
 }
 
 /* @media (prefers-color-scheme: dark) {
