@@ -1,5 +1,5 @@
 type LogoProps = {
-  className: string;
+  className?: string;
   fill?: string;
 };
 

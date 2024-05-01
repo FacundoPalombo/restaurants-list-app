@@ -11,7 +11,7 @@ export default function WelcomeCard() {
       </p>
       <Link
         href="/restaurants"
-        className="rounded-xl px-2 py-1 border-2 text-l md:text-xl font-bold border-black w-min"
+        className="rounded-xl px-2 py-1 border text-l md:text-xl font-semibold border-black w-min"
       >
         {" "}
         Entrar
