@@ -8,7 +8,7 @@ import ButtonForm from "@/app/components/ButtonForm";
 export default function Form() {
   const [state, action] = useFormState(login, undefined);
   return (
-    <form id="login" className="flex flex-col gap-6">
+    <form id="login" action={action} className="flex flex-col gap-6">
       <Input
         label="Email:"
         name="email"
@@ -16,9 +16,10 @@ export default function Form() {
         autoFocus
       />
       <Input
-        label={"Nombre de usuario:"}
-        name="username"
-        placeholder="Escribe tu nombre de usuario"
+        label="Contraseña:"
+        name="password"
+        type="password"
+        placeholder="Escribe tu password"
       />
       <ButtonForm label="Entrar" htmlFor="login" />
     </form>

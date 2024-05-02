@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { API_BASE_URL } from "./app/utils/constants";
+import { validateSession } from "./app/lib/session";
 
 const allowedOrigins = [API_BASE_URL];
 const corsOptions = {
@@ -38,23 +39,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/signup", request.url));
   }
 
-  const doRequest = new Request(new URL("/auth/verify", API_BASE_URL), {
-    method: "GET",
-    cache: "no-cache",
-    headers: {
-      Authorization: sessionCookie.value.toString(),
-    },
-  });
+  // const validatedSession = await validateSession();
 
-  // Verify if the session is currently valid, otherwise should login again
-  const validateSession = await fetch(doRequest)
-    .then((res) => res.json())
-    .catch((err) => NextResponse.redirect(new URL("/login", request.url)));
-
-  // if session request code is not 200 ok, then should redirect to login, whatever it was.
-  if (!validateSession.ok) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
+  // // if session request code is not 200 ok, then should redirect to login, whatever it was.
+  // if (!validatedSession?.ok) {
+  //   return NextResponse.redirect(new URL("/login", request.url));
+  // }
 
   return NextResponse.next();
 }

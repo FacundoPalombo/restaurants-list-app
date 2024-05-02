@@ -24,7 +24,7 @@ export const SignupSchema = z.object({
     .trim(),
 });
 
-export type FormState =
+export type SignupFormState =
   | {
       errors?: {
         name?: string[];
@@ -36,3 +36,40 @@ export type FormState =
   | undefined;
 
 export type Signup = z.infer<typeof SignupSchema>;
+
+export const LoginSchema = z.object({
+  email: z
+    .string()
+    .email({ message: "Por favor ingrese un correo válido." })
+    .trim(),
+  password: z
+    .string()
+    .min(8, { message: "La contraseña no es valida" })
+    .regex(/[a-zA-Z]/, {
+      message: "La contraseña no es valida.",
+    })
+    .regex(/[0-9]/, { message: "La contraseña no es valida." })
+    .regex(/[^a-zA-Z0-9]/, {
+      message: "La contraseña no es valida.",
+    })
+    .trim(),
+});
+
+export type LoginFormState =
+  | {
+      errors?: {
+        email?: string[];
+        password?: string[];
+      };
+      message?: string;
+    }
+  | undefined;
+
+export type Login = z.infer<typeof LoginSchema>;
+
+export type SessionPayload = {
+  userId: string;
+  token: string;
+  expiresAt: Date;
+  refreshToken: string;
+};
