@@ -1,16 +1,44 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { BASE_URL } from "./app/utils/constants";
+import { API_BASE_URL } from "./app/utils/constants";
+
+const allowedOrigins = [API_BASE_URL];
+const corsOptions = {
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
 
 export async function middleware(request: NextRequest) {
-  const sessionCookie = request.cookies.get("session");
+  // Check the origin from the request
+  const origin = request.headers.get("origin") ?? "";
+  const isAllowedOrigin = allowedOrigins.includes(origin);
 
-  // If no session cookie exists, then should signin
-  if (!sessionCookie) {
-    return NextResponse.redirect(new URL("/signin", request.url));
+  // Handle preflighted requests
+  const isPreflight = request.method === "OPTIONS";
+
+  if (isPreflight) {
+    const preflightHeaders = {
+      ...(isAllowedOrigin && { "Access-Control-Allow-Origin": origin }),
+      ...corsOptions,
+    };
+    return NextResponse.json({}, { headers: preflightHeaders });
   }
 
-  const prepareRequest = new Request(new URL("/auth/verify", BASE_URL), {
+  // Handle simple requests
+  const response = NextResponse.next();
+
+  if (isAllowedOrigin) {
+    response.headers.set("Access-Control-Allow-Origin", origin);
+  }
+
+  const sessionCookie = request.cookies.get("session");
+
+  // If no session cookie exists, then should signup
+  if (!sessionCookie) {
+    return NextResponse.redirect(new URL("/signup", request.url));
+  }
+
+  const doRequest = new Request(new URL("/auth/verify", API_BASE_URL), {
     method: "GET",
     cache: "no-cache",
     headers: {
@@ -19,7 +47,7 @@ export async function middleware(request: NextRequest) {
   });
 
   // Verify if the session is currently valid, otherwise should login again
-  const validateSession = await fetch(prepareRequest)
+  const validateSession = await fetch(doRequest)
     .then((res) => res.json())
     .catch((err) => NextResponse.redirect(new URL("/login", request.url)));
 
@@ -33,5 +61,5 @@ export async function middleware(request: NextRequest) {
 
 // This validation occurs in all paths on the app, except the listed ones.
 export const config = {
-  matcher: "/((?!login|signin|api|_next/static|_next/image|favicon.ico).+)",
+  matcher: "/((?!login|signup|api|_next/static|_next/image|favicon.ico).+)",
 };

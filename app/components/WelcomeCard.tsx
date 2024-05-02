@@ -3,7 +3,7 @@ import Logo from "./svg/Logo";
 
 export default function WelcomeCard() {
   return (
-    <section className="rounded-xl p-4 bg-[#F1F1F0] flex flex-col justify-between gap-4 md:gap-6">
+    <section className="rounded-xl p-4 md:p-5 bg-[#F1F1F0] flex flex-col justify-between gap-4 md:gap-6">
       <Logo className="mb-4 md:mb-5" />
       <p className="md:text-4xl text-3xl">
         Hola, <br /> Bienvenido a la prueba de Tailor hub, en ella has de añadir

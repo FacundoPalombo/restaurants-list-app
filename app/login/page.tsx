@@ -1,8 +1,10 @@
-import AuthCard from "../components/AuthCard";
-import MainBoxes from "../components/MainBoxes";
-import officePicture from "../assets/office.jpeg";
-import Input from "../components/Input";
 import Link from "next/link";
+
+import AuthCard from "@/app/components/AuthCard";
+import MainBoxes from "@/app/components/MainBoxes";
+import officePicture from "@/app/assets/office.jpeg";
+
+import Form from "./components/Form";
 
 export default function Login() {
   return (
@@ -10,18 +12,11 @@ export default function Login() {
       <AuthCard>
         <span className="text-[white]">
           ¿No tienes cuenta?{" "}
-          <Link className="font-semibold" href="/signin">
+          <Link className="font-semibold" href="/signup">
             Regístrate
           </Link>
         </span>
-        <form className="flex flex-col gap-6">
-          <Input label={"Email:"} name="email" placeholder="Escribe tu email" />
-          <Input
-            label={"Nombre de usuario:"}
-            name="username"
-            placeholder="Escribe tu nombre de usuario"
-          />
-        </form>
+        <Form />
       </AuthCard>
     </MainBoxes>
   );

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
 
 const config: Config = {
   content: [
@@ -8,7 +9,9 @@ const config: Config = {
   ],
   theme: {
     colors: {
+      ...colors,
       "tailor-blue": "#264BEB",
+      danger: "#ffcfd0",
     },
     extend: {
       backgroundImage: {
