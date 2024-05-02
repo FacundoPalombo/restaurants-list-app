@@ -23,28 +23,58 @@ export default function Form() {
     }
   }, [state?.errors]);
 
+  function Button() {
+    return (
+      <>
+        {step === 1 && (
+          <ButtonForm
+            label="Siguiente"
+            onClick={() => setStep(2)}
+            tabIndex={4}
+          />
+        )}
+        {step === 2 && (
+          <ButtonForm
+            label="Finalizar"
+            htmlFor="signup"
+            tabIndex={6}
+            disabled={pending}
+          />
+        )}
+      </>
+    );
+  }
+
+  function Back() {
+    return (
+      <>
+        {step === 1 && (
+          <Link
+            href="/login"
+            className="border border-[#fff] rounded-xl  px-3 py-1 w-fit block mb-4"
+            tabIndex={1}
+            aria-label="Volver al inicio de sesión"
+          >
+            <ArrowBack />
+          </Link>
+        )}
+        {step === 2 && (
+          <button
+            onClick={() => setStep(1)}
+            tabIndex={4}
+            aria-label="Volver a editar email o nombre de usuario"
+            className="border border-[#fff] rounded-xl  px-3 py-1 w-fit block mb-4"
+          >
+            <ArrowBack />
+          </button>
+        )}
+      </>
+    );
+  }
+
   return (
     <div>
-      {step === 1 && (
-        <Link
-          href="/login"
-          className="border border-[#fff] rounded-xl  px-3 py-1 w-fit block mb-4"
-          tabIndex={1}
-          aria-label="Volver al inicio de sesión"
-        >
-          <ArrowBack />
-        </Link>
-      )}
-      {step === 2 && (
-        <button
-          onClick={() => setStep(1)}
-          tabIndex={4}
-          aria-label="Volver a editar email o nombre de usuario"
-          className="border border-[#fff] rounded-xl  px-3 py-1 w-fit block mb-4"
-        >
-          <ArrowBack />
-        </button>
-      )}
+      <Back />
       <form
         id="signup"
         action={action}
@@ -114,24 +144,8 @@ export default function Form() {
             </div>
           </div>
         </div>
-        {step === 1 && (
-          <ButtonForm
-            label="Siguiente"
-            onClick={() => setStep(2)}
-            tabIndex={4}
-          />
-        )}
-        {step === 2 && (
-          <ButtonForm
-            label="Finalizar"
-            htmlFor="signup"
-            tabIndex={6}
-            disabled={pending}
-          />
-        )}
+        <Button />
       </form>
-
-      {pending && <p>loading....</p>}
     </div>
   );
 }

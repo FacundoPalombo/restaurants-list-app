@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { MouseEventHandler } from "react";
 
 type ButtonForm = {
@@ -19,7 +20,10 @@ export default function ButtonForm({
 }: ButtonForm) {
   return (
     <button
-      className="border border-[#fff] rounded-3xl  px-3 py-1 md:px-4 md:py-2 w-fit text-[white]"
+      className={clsx(
+        "border border-[#fff] rounded-3xl  px-3 py-1 md:px-4 md:py-2 w-fit text-[white]",
+        disabled && "disabled:font-grey"
+      )}
       type={type}
       form={htmlFor}
       onClick={onClick}

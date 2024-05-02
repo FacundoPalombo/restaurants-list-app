@@ -1,6 +1,7 @@
+"use server";
 import { revalidatePath } from "next/cache";
 import { SignupSchema, FormState } from "../lib/definitions";
-import { createAccount } from "@/app/services/auth";
+import { createAccount } from "../services/auth";
 
 export async function signup(state: FormState, formData: FormData) {
   // Validate form fields
@@ -17,11 +18,15 @@ export async function signup(state: FormState, formData: FormData) {
   }
 
   try {
-    const response = await createAccount({ formData });
-    if (response.ok) revalidatePath("/");
-    if (!response.ok) throw new Error("failed");
+    const response = await createAccount(formData);
+    if (response instanceof Response) {
+      if (response?.ok) revalidatePath("/");
+      if (!response?.ok)
+        return { error: "Unexpected Error", payload: response };
+    }
   } catch (error) {
-    return { message: "Failed creating the user" };
+    console.error(error);
+    return { error };
   }
 }
 
