@@ -14,6 +14,7 @@ export default function MainBoxes({ picture, children }: MainBoxes) {
     <main className="flex relative h-full flex-col items-stretch justify-between p-2 gap-4 md:flex-row-reverse md:items-end">
       <div className="block relative h-full w-full md:w-1/2 min-h-48">
         <Image
+          priority={false}
           className="object-cover object-bottom rounded-xl md:h-full"
           src={src}
           alt={alt}

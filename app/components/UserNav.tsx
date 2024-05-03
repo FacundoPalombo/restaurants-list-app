@@ -7,7 +7,11 @@ import useLogout from "../hooks/useLogout";
 import ArrowUp from "./svg/ArrowUp";
 import styles from "./UserNav.module.css";
 
-export default function UserNav() {
+type UserNavProps = {
+  username: string;
+};
+
+export default function UserNav({ username }: UserNavProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [doLogout, setDoLogout] = useState(false);
   const { logout, isLoading, error } = useLogout(doLogout);
@@ -20,10 +24,10 @@ export default function UserNav() {
     <header className="flex flex-row-reverse">
       <nav className="flex flex-col justify-end w-max">
         <button
-          className="flex flex-row align-text-bottom"
+          className="flex flex-row align-text-bottom md:text-xl"
           onClick={() => setIsOpen(!isOpen)}
         >
-          Nombre de Usuario{" "}
+          {username}
           <ArrowUp
             className={clsx("transition-transform", !isOpen && styles.rotateX)}
           />
@@ -47,7 +51,7 @@ export default function UserNav() {
             <hr className="border-white my-4" />
             <li>
               <button
-                className="text-xl font-semibold p-3 border border-white rounded-3xl w-full transition-[outline] duration-[50ms] hover:outline hover:outline-2 hover:outline-white"
+                className=" md:text-xl font-semibold p-3 border border-white rounded-3xl w-full transition-[outline] duration-[50ms] hover:outline hover:outline-2 hover:outline-white"
                 onClick={handleLogout}
               >
                 Cerrar Sesión

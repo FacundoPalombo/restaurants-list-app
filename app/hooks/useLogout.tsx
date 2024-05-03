@@ -4,6 +4,7 @@ import fetcher from "@/app/utils/fetcher";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+// That hook trigger the logout operation on client components.
 export default function useLogout(doLogout: boolean) {
   const router = useRouter();
 

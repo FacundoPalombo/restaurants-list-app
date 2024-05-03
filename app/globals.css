@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("leaflet/dist/leaflet.css");
+
 :root {
   color-scheme: light; /* after finish the styles change this to light dark to apply dark mode*/
   --tailor-blue: #264beb;
