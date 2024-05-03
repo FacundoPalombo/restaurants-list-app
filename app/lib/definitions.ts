@@ -73,3 +73,24 @@ export type SessionPayload = {
   expiresAt: Date;
   refreshToken: string;
 };
+
+export type Restaurant = {
+  _id: string;
+  name: string;
+  owner: string;
+  address: string;
+  latlng: {
+    lat: number;
+    lng: number;
+  };
+  image: string;
+  reviews: never[];
+  createdAt: string;
+  updatedAt: string;
+  avgRating: number;
+};
+
+export type RestaurantList = {
+  restaurantList: Restaurant[];
+  total: number;
+};

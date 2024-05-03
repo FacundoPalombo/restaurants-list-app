@@ -1,6 +1,7 @@
 import { API_BASE_URL } from "@/app/utils/constants";
-import { createSession } from "../lib/session";
 import { cookies } from "next/headers";
+
+//TODO: Al facundo del futuro implementar JWT con jose
 
 export async function createAccount(formData: FormData) {
   // Prepare request headers
@@ -65,7 +66,7 @@ export async function doLogin(formData: FormData) {
 
     try {
       const response = await fetch(request);
-      console.log(response);
+
       if (!response.ok) {
         const error = await response.json();
 
@@ -75,16 +76,94 @@ export async function doLogin(formData: FormData) {
 
       // Obtain Authorization bearer token, userId, refreshToken and expires at to make the session and insert into cookies.
       const token = response.headers?.get("Authorization") as string;
-      const { _id: userId }: { _id: string } = await response.json();
-      const refreshToken = cookies().get("refreshToken")?.value as string;
+      const {
+        _id: userId,
+        email,
+        name: username,
+      }: { _id: string; email: string; name: string } = await response.json();
+
+      const refreshToken = response.headers
+        .getSetCookie()
+        .filter((cookie) => cookie.includes("refreshToken"))[0]
+        .match(/refreshToken\=([a-zA-Z0-9\.]+)/);
+
+      if (!refreshToken) return { error: "No refresh token provided" };
+
       const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-      await createSession({ token, userId, refreshToken, expiresAt });
+      cookies().set({
+        name: "session",
+        value: token,
+        expires: expiresAt,
+        httpOnly: true,
+        secure: true,
+      });
 
-      return Response.json({ message: "Inición seseada" });
+      cookies().set({
+        name: "refreshToken",
+        value: refreshToken[0]?.replace("refreshToken=", ""),
+        expires: expiresAt,
+        httpOnly: true,
+        secure: true,
+      });
+
+      const payload = { userId, email, username };
+
+      return Response.json({ message: "Inición seseada", payload });
     } catch (error) {
       console.error(error);
       return { error };
     }
+  }
+}
+
+export async function verifySession() {
+  const session = cookies().get("session")?.value as string;
+
+  const request = new Request(new URL("/api/auth/verify", API_BASE_URL), {
+    method: "GET",
+    headers: {
+      Authorization: session.toString(),
+    },
+  });
+
+  try {
+    // Verify if the session is currently valid, otherwise should return error and handle it on middlewares
+    const response = await fetch(request);
+    const payload = await response.json();
+
+    if (!response?.ok) return { error: "Error trying to validate session" };
+
+    return { ok: true, payload };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+}
+
+export async function logout() {
+  const session = cookies().get("session")?.value as string;
+  const refreshToken = cookies().get("refreshToken")?.value as string;
+
+  const request = new Request(new URL("/api/auth/logout", API_BASE_URL), {
+    method: "GET",
+    headers: {
+      Authorization: session.toString(),
+      Cookie: `refreshToken=${refreshToken}`,
+    },
+  });
+
+  try {
+    // Verify if the session is currently valid, otherwise should return error and handle it on middlewares
+    const response = await fetch(request);
+    const payload = await response.text();
+    console.log(response, payload, "tremendo");
+
+    if (!response?.ok) return { error: "Error trying to logout user" };
+
+    return { ok: true, payload };
+  } catch (error) {
+    console.error(error);
+    return { error };
   }
 }
