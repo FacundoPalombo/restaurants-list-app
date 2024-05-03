@@ -13,22 +13,24 @@ export default function Map() {
   const ready = useRenderMonkeyPatch();
 
   // Height should be calculated with absolute values for map rendering. see  https://react-leaflet.js.org/docs/v3/start-setup/
-  // const mapHeight = window.innerHeight - 52;
+  const mapHeight = window.innerHeight - 132;
 
   return (
     ready && (
-      <div
-        id="map"
-        className={`block absolute top-4 left-4 w-full h-full -z-10`}
-      >
-        <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
+      <section className="absolute top-0 left-0 rounded-2xl overflow-hidden w-full">
+        <MapContainer
+          style={{ height: mapHeight }}
+          center={position}
+          zoom={13}
+          scrollWheelZoom={false}
+        >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <Marker position={position}></Marker>
         </MapContainer>
-      </div>
+      </section>
     )
   );
 }
