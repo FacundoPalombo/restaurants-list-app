@@ -4,6 +4,8 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import useLogout from "../hooks/useLogout";
+import ArrowUp from "./svg/ArrowUp";
+import styles from "./UserNav.module.css";
 
 export default function UserNav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,22 +17,44 @@ export default function UserNav() {
   }, [doLogout]);
 
   return (
-    <header>
-      <button onClick={() => setIsOpen(!isOpen)}>Nombre de Usuario</button>
-      <nav>
-        <ul className={clsx(!isOpen && "hidden")}>
-          <li>
-            <Link href="/control-panel">Panel de control</Link>
-          </li>
+    <header className="flex flex-row-reverse">
+      <nav className="flex flex-col justify-end w-max">
+        <button
+          className="flex flex-row align-text-bottom"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          Nombre de Usuario{" "}
+          <ArrowUp
+            className={clsx("transition-transform", !isOpen && styles.rotateX)}
+          />
+        </button>
+        <div
+          aria-hidden={!isOpen}
+          className={clsx(
+            !isOpen && "invisible ease-in-out  opacity-5",
+            "transition-opacity delay-0 duration-100",
+            "absolute z-50 top-16 right-4 w-max h-min bg-tailor-blue p-4 pt-6 rounded-2xl rounded-tr-none text-white"
+          )}
+        >
+          <ul className="md:text-lg flex flex-col gap-2">
+            <li>
+              <Link href="/control-panel">Panel de control</Link>
+            </li>
 
-          <li>
-            <Link href="/restaurants/add">Añadir restaurante</Link>
-          </li>
-          <hr />
-          <li>
-            <button onClick={handleLogout}>Cerrar Sesión</button>
-          </li>
-        </ul>
+            <li>
+              <Link href="/restaurants/add">Añadir restaurante</Link>
+            </li>
+            <hr className="border-white my-4" />
+            <li>
+              <button
+                className="text-xl font-semibold p-3 border border-white rounded-3xl w-full transition-[outline] duration-[50ms] hover:outline hover:outline-2 hover:outline-white"
+                onClick={handleLogout}
+              >
+                Cerrar Sesión
+              </button>
+            </li>
+          </ul>
+        </div>
       </nav>
     </header>
   );
