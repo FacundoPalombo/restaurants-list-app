@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 @import url("leaflet/dist/leaflet.css");
+@import url("slick-carousel/slick/slick.css");
+@import url("slick-carousel/slick/slick-theme.css");
 
 :root {
   color-scheme: light; /* after finish the styles change this to light dark to apply dark mode*/
@@ -44,4 +46,15 @@ body {
 html,
 body {
   height: 100vh;
+}
+
+.leaflet-control {
+  z-index: 0 !important;
+}
+.leaflet-pane {
+  z-index: 0 !important;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 0 !important;
 }

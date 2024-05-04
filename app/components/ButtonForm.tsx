@@ -21,6 +21,7 @@ export default function ButtonForm({
   return (
     <button
       className={clsx(
+        "transition-[outline] duration-[50ms] hover:outline hover:outline-2 hover:outline-white",
         "border border-[#fff] rounded-3xl  px-3 py-1 md:px-4 md:py-2 w-fit text-[white]",
         disabled && "disabled:font-grey"
       )}

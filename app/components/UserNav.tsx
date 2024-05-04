@@ -34,6 +34,7 @@ export default function UserNav({ username }: UserNavProps) {
         </button>
         <div
           aria-hidden={!isOpen}
+          style={{ zIndex: 99999 }}
           className={clsx(
             !isOpen && "invisible ease-in-out  opacity-5",
             "transition-opacity delay-0 duration-100",

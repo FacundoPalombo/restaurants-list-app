@@ -16,9 +16,11 @@ export async function middleware(request: NextRequest) {
   // Declare CSP policies and Set csp policies on allowed origin sources
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-eval';
-    style-src 'self' 'nonce-${nonce}';
-    img-src 'self' https://*.tile.openstreetmap.org/ blob: data:;
+    script-src 'self' 'nonce-${nonce}' 'strict-dynamic'  ${
+    process.env.NODE_ENV === "development" && "'unsafe-eval'"
+  };
+    style-src 'self' 'unsafe-inline'; 
+    img-src 'self' https://*.tile.openstreetmap.org/ https://res.cloudinary.com/tailor-hub/ blob: data:;
     font-src 'self';
     object-src 'none';
     base-uri 'self';
