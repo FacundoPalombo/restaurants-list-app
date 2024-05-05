@@ -21,7 +21,7 @@ export default function Button({
   className,
 }: ButtonProps) {
   const buttonBaseStyles =
-    "rounded-xl px-2 py-1 border text-l md:text-xl font-semibold border-black w-min";
+    "rounded-xl px-2 py-1 border text-l md:text-xl font-semibold border-black w-fit select-none";
   if (type === "button" || type === "submit") {
     return (
       <button

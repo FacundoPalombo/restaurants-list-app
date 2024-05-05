@@ -4,13 +4,14 @@ import ReviewComponent from "./components/Review";
 import { Suspense } from "react";
 import RestaurantDetailSkeleton from "./components/RestaurantSkeleton";
 import { Review } from "@/app/lib/definitions";
+import CreateComment from "./components/CreateComment";
 
 export default async function Page({ params }) {
   const { id } = params;
   const restaurant = await getRestaurantDetail({ id });
 
   return (
-    <main id="restaurant-detail" className="px-6">
+    <main id="restaurant-detail">
       <Suspense fallback={<RestaurantDetailSkeleton />}>
         <Hero {...restaurant} />
         <div className="flex flex-col gap-4">
@@ -18,6 +19,7 @@ export default async function Page({ params }) {
             <ReviewComponent key={review._id} {...review} />
           ))}
         </div>
+        <CreateComment {...restaurant} />
       </Suspense>
     </main>
   );
