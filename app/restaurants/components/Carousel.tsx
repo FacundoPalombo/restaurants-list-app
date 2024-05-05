@@ -1,19 +1,14 @@
 "use client";
 
-import styles from "./RestaurantsCarousel.module.css";
+import styles from "./Carousel.module.css";
 import Star from "@/app/components/svg/Star";
 import { Restaurant } from "@/app/lib/definitions";
-import React, {
-  WheelEventHandler,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { WheelEventHandler, useContext, useEffect, useRef } from "react";
 
 import clsx from "clsx";
-import { RestaurantContext } from "./RestaurantChooser";
+import { RestaurantContext } from "./RestaurantContainer";
 
+// #region Restaurant
 function RestaurantComponent({
   latlng,
   address,
@@ -42,8 +37,8 @@ function RestaurantComponent({
         }}
       >
         <div className="-mt-4 ml-4 flex flex-col justify-end w-full h-full">
-          <h2 className="text-xl font-semibold">{name}</h2>
-          <h3 className="text-xl">{address}</h3>
+          <h2 className="drop-shadow-lg text-xl font-semibold">{name}</h2>
+          <h3 className="drop-shadow-lg text-xl">{address}</h3>
           <div className="flex flex-row w-fit relative bg-gradient-to-r">
             <div
               className="block absolute bg-gradient-to-r bg-cyan-400"
@@ -54,7 +49,7 @@ function RestaurantComponent({
             ></div>
             {[5, 4, 3, 2, 1].map((m, k) => (
               <Star
-                className="relative"
+                className="relative drop-shadow-lg"
                 fill={avgRating < m ? "#264BEB" : "white"}
                 key={k}
               />
@@ -66,25 +61,25 @@ function RestaurantComponent({
   );
 }
 
-type RestaurantsCarouselProps = {
+type CarouselProps = {
   restaurants: Restaurant[];
   setRestaurant: Function;
 };
 
-export default function RestaurantsCarousel({
+// #region Carousel
+export default function Carousel({
   restaurants,
   setRestaurant,
-}: RestaurantsCarouselProps) {
+}: CarouselProps) {
   const scrollRef = useRef<HTMLUListElement>(null);
-  const activeSlide = useContext(RestaurantContext);
+  const [activeSlide] = useContext(RestaurantContext);
 
-  const slidesRef = useRef({});
+  const slidesRef = useRef<Record<string, HTMLButtonElement>>({});
 
   // Trigger focus update on change selected restaurant
   useEffect(() => {
     if (activeSlide) {
       slidesRef?.current[activeSlide].focus();
-      console.log(activeSlide);
     }
   }, [activeSlide]);
 
@@ -95,13 +90,10 @@ export default function RestaurantsCarousel({
     const verticalScrollAmount = event.deltaY;
     if (scrollRef.current) {
       scrollRef.current.scrollLeft += verticalScrollAmount;
-      console.log(slidesRef);
     }
   };
 
-  // Posicionar los elementos del carousel en función a la posicion y a la funcion seno.
-
-  // Manejar el current element para mostrar el marker en el mapa con informacion extra del restaurante.
+  //TODO: Posicionar los elementos del carousel en función a la posicion y a la funcion seno.
 
   return (
     <div

@@ -1,51 +1,44 @@
 "use client";
 
-import useRenderMonkeyPatch from "@/app/hooks/useRenderMonkeyPatch";
 import { Restaurant } from "@/app/lib/definitions";
-import { LatLng, LatLngExpression, LeafletMouseEventHandlerFn } from "leaflet";
+import { LatLngExpression, LeafletMouseEventHandlerFn } from "leaflet";
 import { useContext, useEffect, useRef, useState } from "react";
-import {
-  MapContainer,
-  Marker,
-  MarkerProps,
-  Popup,
-  TileLayer,
-  useMap,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
 import Link from "next/link";
-import { RestaurantContext } from "./RestaurantChooser";
+import { RestaurantContext } from "./RestaurantContainer";
 
 type MapProps = {
   restaurants: Restaurant[];
   setRestaurant: Function;
 };
 
+export const INITIAL_POSITION: LatLngExpression = [40.416729, -3.703339];
+
+// #region Map
 export default function Map({ restaurants, setRestaurant }: MapProps) {
-  const [position, setPosition] = useState<LatLngExpression>([
-    40.416729, -3.703339,
-  ]);
+  const [selectedRestaurant, currentPosition] = useContext(RestaurantContext);
 
   //! This is a monkeypatch that waits to first react-render to execute the initialization of react-leaflet
   // is a monkeypatch that needs react-leaflet for rendering, because client components, besides being "client", also executes code on server
   // and breaks down...
-  const ready = useRenderMonkeyPatch();
+  const [isReady, setIsReady] = useState(false);
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
 
   // Height should be calculated with absolute values for map rendering. see  https://react-leaflet.js.org/docs/v3/start-setup/
-  const mapHeight = window.innerHeight - 132;
-
   return (
-    ready && (
+    isReady && (
       <section className="relative overflow-hidden w-full h-full rounded-2xl">
         <div className="absolute top-0 left-0 rounded-2xl overflow-hidden w-full">
           <MapContainer
-            style={{ height: mapHeight }}
-            center={position}
-            zoom={15}
-            scrollWheelZoom={false}
+            style={{ height: global?.window?.innerHeight - 132 }}
+            center={INITIAL_POSITION}
+            zoom={16}
+            scrollWheelZoom={true}
           >
-            <ChangeView center={position} zoom={15} />
+            <ChangeView center={currentPosition} zoom={17} />
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -61,6 +54,7 @@ export default function Map({ restaurants, setRestaurant }: MapProps) {
   );
 }
 
+// #region ChangeView
 // Component MapView for changing the position and zoom dynamically
 function ChangeView({
   center,
@@ -70,10 +64,13 @@ function ChangeView({
   zoom: number;
 }) {
   const map = useMap();
+  // makes a navigation bounce but fixes the problem of "threshold center"
+  map.setView(center, 18);
   map.setView(center, zoom);
   return null;
 }
 
+// #region Marker
 function RestaurantMarker({
   _id,
   latlng,
@@ -81,9 +78,12 @@ function RestaurantMarker({
   address,
   setRestaurant,
 }: Restaurant & { setRestaurant: Function }) {
-  const currentRestaurantId = useContext(RestaurantContext);
+  const [position, setPosition] = useState<LatLngExpression>(INITIAL_POSITION);
 
-  const markerRef = useRef<typeof Marker>(null);
+  const [currentRestaurantId, currentPosition] = useContext(RestaurantContext);
+
+  // ops!
+  const markerRef = useRef<any>(null);
 
   const handleMarkerClick: LeafletMouseEventHandlerFn = (e) => {
     const restaurantId = e?.target?.options?.children?.key;
@@ -98,6 +98,13 @@ function RestaurantMarker({
       markerRef?.current?.options?.children?.key === currentRestaurantId
     ) {
       console.log("marker", markerRef);
+      const lat = markerRef.current.latlng?.lat;
+      const lng = markerRef.current.latlng?.lng;
+
+      const newPosition: LatLngExpression = [lat, lng];
+
+      setPosition(newPosition);
+
       markerRef.current.openPopup();
     }
   }, [currentRestaurantId]);
