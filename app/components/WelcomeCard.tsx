@@ -3,6 +3,7 @@ import Logo from "./svg/Logo";
 import { headers } from "next/headers";
 
 export default function WelcomeCard() {
+  //TODO: Implementar logica redireccion al login desde el referer
   const referer = headers().get("referer");
   console.log(referer, "tremendo");
   return (

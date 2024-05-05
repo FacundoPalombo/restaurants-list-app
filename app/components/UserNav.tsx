@@ -21,7 +21,7 @@ export default function UserNav({ username }: UserNavProps) {
   }, [doLogout]);
 
   return (
-    <header className="flex flex-row-reverse">
+    <header className="flex flex-row-reverse my-4">
       <nav className="flex flex-col justify-end w-max">
         <button
           className="flex flex-row align-text-bottom md:text-xl"

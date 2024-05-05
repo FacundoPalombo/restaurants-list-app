@@ -11,9 +11,9 @@ export default async function Layout({ children }: LayoutProps) {
   const sessionVerified = await verifySession();
 
   return (
-    <div className="flex flex-col gap-4 p-4 h-full w-full overflow-hidden">
+    <>
       <UserNav username={sessionVerified?.payload?.name} />
       {children}
-    </div>
+    </>
   );
 }

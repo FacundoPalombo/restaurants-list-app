@@ -56,10 +56,10 @@ function RestaurantComponent({
                   width: `calc(${avgRating} * 100%)`,
                 }}
               ></div>
-              {[5, 4, 3, 2, 1].map((m, k) => (
+              {[5, 4, 3, 2, 1].map((stars, k) => (
                 <Star
                   className="relative drop-shadow-lg"
-                  fill={avgRating < m ? "#264BEB" : "white"}
+                  fill={avgRating < stars ? "#264BEB" : "white"}
                   key={k}
                 />
               ))}

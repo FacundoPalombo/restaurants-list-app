@@ -94,3 +94,32 @@ export type RestaurantList = {
   restaurantList: Restaurant[];
   total: number;
 };
+
+export type Review = {
+  owner: {
+    name: string;
+  };
+  rating: number;
+  comment: string;
+  _id: string;
+  date: string;
+};
+
+export type Reviews = [] | Review[];
+
+export type RestaurantDetail = {
+  _id: string;
+  name: string;
+  owner: {
+    name: string;
+  };
+  address: string;
+  latlng: {
+    lat: number;
+    lng: number;
+  };
+  image: string;
+  reviews: Reviews;
+  createdAt: string;
+  avgRating: number;
+};
