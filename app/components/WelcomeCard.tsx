@@ -1,7 +1,10 @@
 import Link from "next/link";
 import Logo from "./svg/Logo";
+import { headers } from "next/headers";
 
 export default function WelcomeCard() {
+  const referer = headers().get("referer");
+  console.log(referer, "tremendo");
   return (
     <section className="rounded-xl p-4 md:p-5 bg-[#F1F1F0] flex flex-col justify-between gap-4 md:gap-6">
       <Logo className="mb-4 md:mb-5" />
@@ -10,7 +13,7 @@ export default function WelcomeCard() {
         los restaurantes favoritos donde te gustaría ir en tu onboarding.
       </p>
       <Link
-        href="/restaurants"
+        href="/signup"
         className="rounded-xl px-2 py-1 border text-l md:text-xl font-semibold border-black w-min"
       >
         {" "}
