@@ -15,6 +15,8 @@ export default function WelcomeCard() {
       </p>
       <Link
         href="/signup"
+        role="button"
+        aria-label="Entra a ver los restaurantes"
         className="rounded-xl px-2 py-1 border text-l md:text-xl font-semibold border-black w-min"
       >
         {" "}

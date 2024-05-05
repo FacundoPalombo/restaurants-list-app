@@ -1,13 +1,14 @@
 import clsx from "clsx";
-import { MouseEventHandler } from "react";
+import React, { MouseEventHandler } from "react";
 
 type ButtonForm = {
-  label: string;
+  label?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   htmlFor?: string;
   type?: "submit" | "button";
   tabIndex?: number;
   disabled?: boolean;
+  children?: React.ReactElement | string;
 };
 
 export default function ButtonForm({
@@ -17,6 +18,7 @@ export default function ButtonForm({
   type = "submit",
   tabIndex,
   disabled = false,
+  children,
 }: ButtonForm) {
   return (
     <button
@@ -32,6 +34,7 @@ export default function ButtonForm({
       disabled={disabled}
     >
       {label}
+      {children}
     </button>
   );
 }
