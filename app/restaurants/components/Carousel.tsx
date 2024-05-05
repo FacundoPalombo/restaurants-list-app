@@ -3,7 +3,13 @@
 import styles from "./Carousel.module.css";
 import Star from "@/app/components/svg/Star";
 import { Restaurant } from "@/app/lib/definitions";
-import React, { WheelEventHandler, useContext, useEffect, useRef } from "react";
+import React, {
+  Suspense,
+  WheelEventHandler,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 
 import clsx from "clsx";
 import { RestaurantContext } from "./RestaurantContainer";
