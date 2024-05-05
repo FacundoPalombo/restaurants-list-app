@@ -2,7 +2,7 @@
 
 import { Restaurant } from "@/app/lib/definitions";
 import { LatLngExpression, LeafletMouseEventHandlerFn } from "leaflet";
-import { useContext, useEffect, useRef, useState } from "react";
+import { Suspense, useContext, useEffect, useRef, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
 import Link from "next/link";
@@ -30,26 +30,28 @@ export default function Map({ restaurants, setRestaurant }: MapProps) {
   // Height should be calculated with absolute values for map rendering. see  https://react-leaflet.js.org/docs/v3/start-setup/
   return (
     isReady && (
-      <section className="relative overflow-hidden w-full h-full rounded-2xl">
-        <div className="absolute top-0 left-0 rounded-2xl overflow-hidden w-full">
-          <MapContainer
-            style={{ height: global?.window?.innerHeight - 132 }}
-            center={INITIAL_POSITION}
-            zoom={16}
-            scrollWheelZoom={true}
-          >
-            <ChangeView center={currentPosition} zoom={17} />
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+      <Suspense fallback={<p>Loading maps...</p>}>
+        <section className="relative overflow-hidden w-full h-full rounded-2xl">
+          <div className="absolute top-0 left-0 rounded-2xl overflow-hidden w-full">
+            <MapContainer
+              style={{ height: global?.window?.innerHeight - 132 }}
+              center={INITIAL_POSITION}
+              zoom={16}
+              scrollWheelZoom={true}
+            >
+              <ChangeView center={currentPosition} zoom={17} />
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
 
-            {restaurants.map((props) => (
-              <RestaurantMarker {...props} setRestaurant={setRestaurant} />
-            ))}
-          </MapContainer>
-        </div>
-      </section>
+              {restaurants.map((props) => (
+                <RestaurantMarker {...props} setRestaurant={setRestaurant} />
+              ))}
+            </MapContainer>
+          </div>
+        </section>
+      </Suspense>
     )
   );
 }

@@ -92,5 +92,6 @@ export async function middleware(request: NextRequest) {
 
 // This validation occurs in all paths on the app, except the listed ones.
 export const config = {
-  matcher: "/((?!login|signup|api|_next/static|_next/image|favicon.ico).+)",
+  matcher:
+    "/((?!login|signup|restaurants|api|_next/static|_next/image|favicon.ico).+)",
 };

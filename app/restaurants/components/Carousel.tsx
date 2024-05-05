@@ -22,38 +22,42 @@ function RestaurantComponent({
   return (
     <section
       className={clsx(
-        "flex flex-row border-box w-[272px] h-[358px] text-white  active:outline-2 active:outline-red-200 cursor-pointer"
+        "flex flex-row border-box w-[272px] h-[358px] text-white cursor-pointer"
       )}
     >
       <div
         className={clsx(
           styles.scroll,
-          "block relative w-full h-full rounded-3xl"
+          "block relative box-border w-full h-full rounded-3xl",
+          "hover:shadow-lg"
         )}
         style={{
+          backgroundColor: "lightgrey",
           backgroundImage: `url(${image})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
       >
-        <div className="-mt-4 ml-4 flex flex-col justify-end w-full h-full">
-          <h2 className="drop-shadow-lg text-xl font-semibold">{name}</h2>
-          <h3 className="drop-shadow-lg text-xl">{address}</h3>
-          <div className="flex flex-row w-fit relative bg-gradient-to-r">
-            <div
-              className="block absolute bg-gradient-to-r bg-cyan-400"
-              style={{
-                mask: "#264BEB",
-                width: `calc(${avgRating} * 100%)`,
-              }}
-            ></div>
-            {[5, 4, 3, 2, 1].map((m, k) => (
-              <Star
-                className="relative drop-shadow-lg"
-                fill={avgRating < m ? "#264BEB" : "white"}
-                key={k}
-              />
-            ))}
+        <div className="relative box-content flex flex-col justify-end flex-wrap mx-4 w-full h-full">
+          <div className="relative box-content flex flex-col justify-end flex-wrap pb-4 w-[256px]">
+            <h2 className="drop-shadow-lg text-xl font-semibold">{name}</h2>
+            <h3 className="drop-shadow-lg text-xl">{address}</h3>
+            <div className="flex flex-row w-fit relative bg-gradient-to-r">
+              <div
+                className="block absolute bg-gradient-to-r bg-cyan-400"
+                style={{
+                  mask: "#264BEB",
+                  width: `calc(${avgRating} * 100%)`,
+                }}
+              ></div>
+              {[5, 4, 3, 2, 1].map((m, k) => (
+                <Star
+                  className="relative drop-shadow-lg"
+                  fill={avgRating < m ? "#264BEB" : "white"}
+                  key={k}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -102,7 +106,7 @@ export default function Carousel({
       className="absolute bottom-2 left-0 h-max w-[100vw]"
     >
       <ul
-        className="relative flex flex-row gap-12 overflow-scroll py-6 whitespace-nowrap"
+        className="relative flex flex-row gap-12 overflow-scroll py-6"
         style={{
           msOverflowStyle: "none",
           scrollbarWidth: "none",
