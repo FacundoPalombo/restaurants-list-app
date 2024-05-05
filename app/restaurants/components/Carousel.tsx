@@ -122,7 +122,7 @@ export default function Carousel({
         onWheel={handleHorizontalScroll}
       >
         {restaurants.map((props, index) => (
-          <li className="h-max" key={props._id}>
+          <li className="h-max first-of-type:ml-6" key={props._id}>
             <button
               onClick={() => setRestaurant(props._id)}
               aria-current={activeSlide === props._id}

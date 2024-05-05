@@ -14,9 +14,7 @@ export default async function Page() {
 
   return (
     <main id="restaurants" className="w-full h-full">
-      <Suspense fallback={<RestaurantSkeleton />}>
-        <RestaurantContainer restaurants={restaurants} />
-      </Suspense>
+      <RestaurantContainer restaurants={restaurants} />
     </main>
   );
 }
