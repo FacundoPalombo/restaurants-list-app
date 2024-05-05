@@ -157,7 +157,6 @@ export async function logout() {
     // Verify if the session is currently valid, otherwise should return error and handle it on middlewares
     const response = await fetch(request);
     const payload = await response.text();
-    console.log(response, payload, "tremendo");
 
     if (!response?.ok) return { error: "Error trying to logout user" };
 

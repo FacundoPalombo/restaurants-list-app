@@ -14,7 +14,6 @@ export default function useLogout(doLogout: boolean) {
   );
   useEffect(() => {
     if (data?.payload === "Accepted") {
-      console.log("llego");
       router.push("/login");
     }
   }, [data]);

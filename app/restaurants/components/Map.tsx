@@ -87,7 +87,6 @@ function RestaurantMarker({
 
   const handleMarkerClick: LeafletMouseEventHandlerFn = (e) => {
     const restaurantId = e?.target?.options?.children?.key;
-    console.log(restaurantId);
     setRestaurant(restaurantId);
   };
 
@@ -97,7 +96,6 @@ function RestaurantMarker({
       currentRestaurantId &&
       markerRef?.current?.options?.children?.key === currentRestaurantId
     ) {
-      console.log("marker", markerRef);
       const lat = markerRef.current.latlng?.lat;
       const lng = markerRef.current.latlng?.lng;
 
