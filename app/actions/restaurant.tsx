@@ -13,6 +13,7 @@ export async function createRestaurant(state, formData: FormData) {
   const description = formData.get("description");
   const lat = formData.get("latlng[lat]");
   const lng = formData.get("latlng[lng]");
+  console.log(description, "tremenda descripcion");
 
   const validatedFields = CreateRestaurantRequestSchema.safeParse({
     image,
@@ -22,18 +23,21 @@ export async function createRestaurant(state, formData: FormData) {
     "latlng[lat]": lat,
     "latlng[lng]": lng,
   });
+  console.log(image);
 
+  console.log(validatedFields.error?.flatten());
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
+
   try {
     const response = await createRestaurantService({ formData });
 
     if (response) {
       revalidatePath("/restaurants");
-      return NextResponse.redirect("/restaurants/add/success");
+      return NextResponse.redirect("/restaurants/create/success");
     }
   } catch (error) {
     console.error(error);

@@ -10,7 +10,8 @@ type InputProps = {
   error?: boolean;
   autocomplete?: string | boolean;
   hierarchy?: "quiet" | "loud";
-  modifier?: "pending" | "warning" | undefined | false | null;
+  modifier?: "success" | "warning" | undefined | false | null;
+  loading?: boolean;
 };
 
 export default function Input({
@@ -18,6 +19,7 @@ export default function Input({
   name,
   placeholder,
   modifier,
+  loading,
   type = "text",
   tabIndex,
   autoFocus,
@@ -27,8 +29,8 @@ export default function Input({
 }: InputProps) {
   const loud = hierarchy === "loud";
   const quiet = hierarchy === "quiet";
-
-  const loading = modifier === "pending";
+  const success = modifier === "success";
+  const warning = modifier === "warning";
 
   const autoComplete =
     typeof autocomplete === "string"

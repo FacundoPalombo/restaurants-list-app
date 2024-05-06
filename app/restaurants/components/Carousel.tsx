@@ -59,7 +59,7 @@ function RestaurantComponent({
               {[1, 2, 3, 4, 5].map((stars, k) => (
                 <Star
                   className="relative drop-shadow-lg"
-                  fill={avgRating >= stars ? "#264BEB" : "white"}
+                  fill={Math.round(avgRating) >= stars ? "#264BEB" : "white"}
                   key={k}
                 />
               ))}

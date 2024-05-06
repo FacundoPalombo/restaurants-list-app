@@ -76,7 +76,7 @@ export async function createRestaurant({ formData }: { formData: FormData }) {
 
   // Prepare request headers
   const headers = new Headers();
-  headers.append("Content-Type", "application/x-www-form-urlencoded");
+  // headers.append("Content-Type", "multipart/form-data");
   headers.append("Authorization", session.toString());
 
   const request = new Request(new URL("/api/restaurant/create", API_BASE_URL), {
@@ -90,7 +90,7 @@ export async function createRestaurant({ formData }: { formData: FormData }) {
   try {
     const response = await fetch(request);
 
-    if (response?.ok) return "Accepted";
+    if (response?.ok) return "Created";
     if (!response?.ok)
       throw createHttpError(
         response.status,

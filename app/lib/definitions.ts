@@ -139,8 +139,23 @@ export type RestaurantsDetailRequest = z.infer<
   typeof RestaurantsDetailRequestSchema
 >;
 
+const MAX_FILE_SIZE = 1024 * 1024 * 5;
+const ACCEPTED_IMAGE_MIME_TYPES = [
+  "application/pdf",
+  "image/jpg",
+  "image/jpeg",
+];
+
 export const CreateRestaurantRequestSchema = z.object({
-  image: z.symbol({ message: "La imagen es requerida" }),
+  image: z
+    .instanceof(File)
+    .refine((file) => {
+      return file?.size <= MAX_FILE_SIZE;
+    }, `El tamaño maximo de imagen son 5mb.`)
+    .refine(
+      (file) => ACCEPTED_IMAGE_MIME_TYPES.includes(file?.type),
+      "Solo se aceptan los siguientes formatos: .jpg .pdf .jpeg"
+    ),
   name: z.string({ message: "El nombre es requerido" }),
   address: z.string({ message: "La dirección es requerida" }),
   "latlng[lat]": z.string({ message: "La latitud es requerida" }),

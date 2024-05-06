@@ -5,7 +5,7 @@ import Button from "@/app/components/Button";
 import Input from "@/app/components/Input";
 import clsx from "clsx";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
 export default function Form() {
@@ -15,15 +15,19 @@ export default function Form() {
 
   const [state, action] = useFormState(createRestaurant, undefined);
 
-  const { pending } = useFormStatus();
+  const { pending, data } = useFormStatus();
 
   const onInputFile = useCallback(
     (event) => {
       console.log(event.target.files);
-      setFile(URL.createObjectURL(event.target.files[0]));
+      setFile(event.target.files[0]);
     },
     [fileRef]
   );
+
+  useEffect(() => {
+    console.log(description);
+  }, [description]);
 
   return (
     <form
@@ -52,15 +56,16 @@ export default function Form() {
       </button>
       <input
         type="file"
+        name="image"
+        accept=".jpg, .pdf, .jpeg"
         hidden
         onChange={onInputFile}
         ref={fileRef}
-        name="image"
       />
       <div className="flex flex-col gap-4 px-4 w-full ">
         <Input
           autocomplete={false}
-          modifier={pending && "loading"}
+          loading={pending}
           hierarchy="loud"
           label="Nombre *"
           placeholder="Escribe el nombre"
@@ -69,7 +74,7 @@ export default function Form() {
         />
         <Input
           autocomplete={false}
-          modifier={pending && "loading"}
+          loading={pending}
           hierarchy="loud"
           label="Dirección *"
           placeholder="Escribe la dirección"
@@ -78,7 +83,7 @@ export default function Form() {
         />
         <Input
           autocomplete={false}
-          modifier={pending && "loading"}
+          loading={pending}
           hierarchy="loud"
           label="Latitud *"
           placeholder="Escribe la latitud"
@@ -87,7 +92,7 @@ export default function Form() {
         />
         <Input
           autocomplete={false}
-          modifier={pending && "loading"}
+          loading={pending}
           hierarchy="loud"
           label="Longitud *"
           placeholder="Escribe la longitud"
@@ -106,8 +111,7 @@ export default function Form() {
             "h-full w-full rounded-3xl p-2 border-2  border-black shadow-lg",
             pending && "animation-pulse"
           )}
-          onChange={(e) => setDescription(e.target.value)}
-          name="description"
+          onChange={(e) => setDescription(e.target.value.trim())}
         ></textarea>
 
         <Button

@@ -18,6 +18,7 @@ export default function UserNav({ username }: UserNavProps) {
 
   const handleLogout = useCallback(() => {
     setDoLogout(true);
+    setIsOpen(false);
   }, [doLogout]);
 
   return (
@@ -43,16 +44,23 @@ export default function UserNav({ username }: UserNavProps) {
         >
           <ul className="md:text-lg flex flex-col gap-2">
             <li>
-              <Link href="/control-panel">Panel de control</Link>
+              <Link onClick={() => setIsOpen(false)} href="/control-panel">
+                Panel de control
+              </Link>
             </li>
 
             <li>
-              <Link href="/restaurants/add">Añadir restaurante</Link>
+              <Link onClick={() => setIsOpen(false)} href="/restaurants/create">
+                Añadir restaurante
+              </Link>
             </li>
             <hr className="border-white my-4" />
             <li>
               <button
-                className=" md:text-xl font-semibold p-3 border border-white rounded-3xl w-full transition-[outline] duration-[50ms] hover:outline hover:outline-2 hover:outline-white"
+                className={clsx(
+                  " md:text-xl font-semibold p-3 border border-white rounded-3xl w-full transition-[outline] duration-[50ms] hover:outline hover:outline-2 hover:outline-white",
+                  isLoading && "animation-spinner"
+                )}
                 onClick={handleLogout}
               >
                 Cerrar Sesión
