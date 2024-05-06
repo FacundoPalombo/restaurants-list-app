@@ -14,7 +14,7 @@ export default async function Page({ params }) {
     <main id="restaurant-detail" className="flex flex-col items-center">
       <Suspense fallback={<RestaurantDetailSkeleton />}>
         <Hero {...restaurant} />
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-full items-center justify-center max-w-[944px]">
           {restaurant.reviews?.map((review: Review) => (
             <ReviewComponent key={review._id} {...review} />
           ))}

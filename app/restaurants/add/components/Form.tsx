@@ -19,7 +19,7 @@ export default function Form() {
   );
 
   return (
-    <form className="flex flex-col-reverse gap-6 items-center sm:flex-row">
+    <form className="flex flex-col-reverse px-6 gap-6 items-center sm:flex-row">
       <button
         className="my-4"
         type="button"
