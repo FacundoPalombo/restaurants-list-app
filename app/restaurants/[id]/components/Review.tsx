@@ -6,7 +6,7 @@ import clsx from "clsx";
 export default function ReviewComponent({ owner, rating, comment }: Review) {
   return (
     <section aria-label={`Review de: ${owner}`}>
-      <div className="flex flex-col gap-4 mx-4 ">
+      <div className="flex flex-col gap-4 mx-4 max-w-[944px]">
         <div className="flex flex-row justify-between gap-2 items-center relative box-border h-min  whitespace-nowrap w-full">
           <h2 className="relative break-word overflow-hidden text-ellipsis border-collapse  box-content  text-3xl font-semibold w-min">
             {owner.name}
@@ -29,9 +29,10 @@ export default function ReviewComponent({ owner, rating, comment }: Review) {
             </div>
           </div>
         </div>
+
         <EditingForm comment={comment} />
+        <hr className="border border-tailor-blue w-full m-auto mb-4" />
       </div>
-      <hr className="border border-tailor-blue w-full m-auto mb-4" />
     </section>
   );
 }

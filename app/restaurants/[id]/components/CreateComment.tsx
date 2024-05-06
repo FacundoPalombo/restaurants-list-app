@@ -13,7 +13,7 @@ export default function CreateComment({}) {
   }, [newComment]);
 
   return (
-    <form className="w-full h-max">
+    <form className="flex flex-col gap-4 w-full h-max my-4 max-w-[944px]">
       <input type="text" hidden value={newComment} />
       <textarea
         className={clsx(

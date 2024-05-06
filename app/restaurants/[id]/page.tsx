@@ -11,7 +11,7 @@ export default async function Page({ params }) {
   const restaurant = await getRestaurantDetail({ id });
 
   return (
-    <main id="restaurant-detail">
+    <main id="restaurant-detail" className="flex flex-col items-center">
       <Suspense fallback={<RestaurantDetailSkeleton />}>
         <Hero {...restaurant} />
         <div className="flex flex-col gap-4">
