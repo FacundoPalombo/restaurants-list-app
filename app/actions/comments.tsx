@@ -1,6 +1,6 @@
 "use server";
 
-import { CreateCommentSchema } from "../lib/comments";
+import { CreateCommentSchema } from "../lib/definitions";
 import {
   createComment,
   updateComment,

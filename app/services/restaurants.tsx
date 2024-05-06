@@ -1,18 +1,16 @@
 import "server-only";
 
 import { API_BASE_URL } from "../utils/constants";
-import { z } from "zod";
-import { cookies, headers } from "next/headers";
-import { RestaurantDetail } from "../lib/definitions";
+import { cookies } from "next/headers";
+import {
+  RestaurantsRequest,
+  RestaurantsDetailRequest,
+  CreateRestaurantRequest,
+} from "../lib/definitions";
+import createHttpError from "http-errors";
 
 // #region Restaurant
-// inline definitions
-const RestaurantsSchema = z.object({
-  page: z.string({ message: "El parametro [page] es requerido" }),
-});
-type Restaurants = z.infer<typeof RestaurantsSchema>;
-
-export async function getRestaurants({ page }: Restaurants) {
+export async function getRestaurants({ page }: RestaurantsRequest) {
   const params = new URLSearchParams({ limit: "10", page });
 
   const request = new Request(
@@ -42,13 +40,8 @@ export async function getRestaurants({ page }: Restaurants) {
 }
 
 // #region RestaurantDetail
-// inline definitions
-const RestaurantsDetailRequestSchema = z.object({
-  id: z.string({ message: "El parametro [id] es requerido" }),
-});
-type RestaurantsDetailRequest = z.infer<typeof RestaurantsSchema>;
 
-export async function getRestaurantDetail({ id }) {
+export async function getRestaurantDetail({ id }: RestaurantsDetailRequest) {
   const session = cookies().get("session")?.value as string;
 
   const request = new Request(
@@ -74,5 +67,37 @@ export async function getRestaurantDetail({ id }) {
   } catch (error) {
     console.error(error);
     return { error };
+  }
+}
+
+export async function createRestaurant({ formData }: { formData: FormData }) {
+  const session = cookies().get("session")?.value as string;
+  if (!session) throw Error("Unauthorized");
+
+  // Prepare request headers
+  const headers = new Headers();
+  headers.append("Content-Type", "application/x-www-form-urlencoded");
+  headers.append("Authorization", session.toString());
+
+  const request = new Request(new URL("/api/restaurant/create", API_BASE_URL), {
+    method: "POST",
+    cache: "no-cache",
+    mode: "cors",
+    headers,
+    body: formData,
+  });
+
+  try {
+    const response = await fetch(request);
+
+    if (response?.ok) return "Accepted";
+    if (!response?.ok)
+      throw createHttpError(
+        response.status,
+        `Error from service: ${response.statusText}`
+      );
+  } catch (error) {
+    console.error(error);
+    return error;
   }
 }

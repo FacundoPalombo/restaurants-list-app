@@ -1,7 +1,5 @@
-import Star from "@/app/components/svg/Star";
 import { Review } from "@/app/lib/definitions";
 import EditingForm from "./EditingForm";
-import clsx from "clsx";
 
 export default function ReviewComponent({
   owner,

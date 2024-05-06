@@ -10,12 +10,14 @@ type InputProps = {
   error?: boolean;
   autocomplete?: string | boolean;
   hierarchy?: "quiet" | "loud";
+  modifier?: "pending" | "warning" | undefined | false | null;
 };
 
 export default function Input({
   label,
   name,
   placeholder,
+  modifier,
   type = "text",
   tabIndex,
   autoFocus,
@@ -25,6 +27,8 @@ export default function Input({
 }: InputProps) {
   const loud = hierarchy === "loud";
   const quiet = hierarchy === "quiet";
+
+  const loading = modifier === "pending";
 
   const autoComplete =
     typeof autocomplete === "string"
@@ -40,7 +44,8 @@ export default function Input({
         className={clsx(
           "text-lg md:text-xl",
           quiet && "text-white",
-          loud && "text-black"
+          loud && "text-black",
+          loading && "animation-pulse"
         )}
       >
         {label}
@@ -58,7 +63,8 @@ export default function Input({
           loud && "text-white outline-blue-400",
           loud &&
             error &&
-            "text-rose-400 outline-rose-400 border-rose-400 placeholder-rose-400"
+            "text-rose-400 outline-rose-400 border-rose-400 placeholder-rose-400",
+          loading && "animation-pulse"
         )}
         type={type}
         id={name}

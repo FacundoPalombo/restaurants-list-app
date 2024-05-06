@@ -1,3 +1,4 @@
+import { latLng } from "leaflet";
 import { z } from "zod";
 
 export const SignupSchema = z.object({
@@ -123,3 +124,40 @@ export type RestaurantDetail = {
   createdAt: string;
   avgRating: number;
 };
+
+export const RestaurantsRequestSchema = z.object({
+  page: z.string({ message: "El parametro [page] es requerido" }),
+});
+
+export type RestaurantsRequest = z.infer<typeof RestaurantsRequestSchema>;
+
+export const RestaurantsDetailRequestSchema = z.object({
+  id: z.string({ message: "El parametro [id] es requerido" }),
+});
+
+export type RestaurantsDetailRequest = z.infer<
+  typeof RestaurantsDetailRequestSchema
+>;
+
+export const CreateRestaurantRequestSchema = z.object({
+  image: z.symbol({ message: "La imagen es requerida" }),
+  name: z.string({ message: "El nombre es requerido" }),
+  address: z.string({ message: "La dirección es requerida" }),
+  "latlng[lat]": z.string({ message: "La latitud es requerida" }),
+  "latlng[lng]": z.string({ message: "La longitud es requerida" }),
+  description: z.string().optional(),
+});
+
+export type CreateRestaurantRequest = z.infer<
+  typeof CreateRestaurantRequestSchema
+>;
+
+export const CreateCommentSchema = z.object({
+  comment: z
+    .string({ message: "No puedes enviar un comentario vacío" })
+    .min(10, { message: "El comentario minimo es de 10 caracteres" })
+    .max(255, "El comentario maximo es de 255 caracteres"),
+  rating: z.number({ message: "Por favor proporciona una valoración" }),
+});
+
+export type CreateComment = z.infer<typeof CreateCommentSchema>;

@@ -2,6 +2,7 @@
 
 import ContentLoader from "react-content-loader";
 
+// Si viniste a esta pagina y todavía estan rotos los skeletons, estoy probando esta librería y se rompen todos, suelo hacer los skeletons normalmente con html mas que con svg.
 export default function RestaurantDetailSkeleton({}) {
   const width = global?.window?.innerWidth;
   const height = global?.window?.innerHeight;
