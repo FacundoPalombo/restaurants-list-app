@@ -12,9 +12,11 @@ type ButtonProps = {
   className?: string;
   htmlFor?: string;
   disabled?: boolean;
+  size?: "md" | "lg";
 };
 
 export default function Button({
+  size = "md",
   type = "button",
   href,
   onClick,
@@ -24,15 +26,23 @@ export default function Button({
   htmlFor,
   disabled,
 }: ButtonProps) {
-  const buttonBaseStyles =
-    "rounded-xl px-2 py-1 border text-l md:text-xl font-semibold border-black w-fit select-none";
+  const md = size === "md";
+  const lg = size === "lg";
+
+  const buttonBaseStyles = clsx(
+    className,
+    "rounded-xl border  font-semibold border-black w-fit select-none",
+    md && "px-2 py-1 text-md md:text-xl",
+    lg && "px-2 py-2 text-lg md:text-2xl"
+  );
+
   if (type === "button" || type === "submit") {
     return (
       <button
         type={type}
         disabled={disabled}
         form={htmlFor}
-        className={clsx(buttonBaseStyles, className)}
+        className={buttonBaseStyles}
         onClick={onClick}
       >
         {label}
@@ -45,11 +55,7 @@ export default function Button({
       throw new Error("The prop href is mandatory on Button type='link'");
 
     return (
-      <Link
-        href={href}
-        className={clsx(buttonBaseStyles, className)}
-        onClick={onClick}
-      >
+      <Link href={href} className={buttonBaseStyles} onClick={onClick}>
         {label}
         {children}
       </Link>
