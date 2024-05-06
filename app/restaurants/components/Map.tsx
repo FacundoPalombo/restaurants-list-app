@@ -32,7 +32,7 @@ export default function Map({ restaurants, setRestaurant }: MapProps) {
     isReady && (
       <Suspense fallback={<p>Loading maps...</p>}>
         <section className="relative overflow-hidden w-full h-full rounded-2xl">
-          <div className="absolute top-0 left-0 rounded-2xl overflow-hidden w-full">
+          <div className="relative rounded-2xl overflow-hidden w-[100vw]">
             <MapContainer
               style={{ height: global?.window?.innerHeight - 132 }}
               center={INITIAL_POSITION}

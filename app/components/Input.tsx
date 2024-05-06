@@ -51,6 +51,7 @@ export default function Input({
         )}
       >
         {label}
+        {loading && "cargandow..."}
       </label>
       <input
         autoComplete={autoComplete}

@@ -7,7 +7,8 @@ import {
   RestaurantsDetailRequest,
   CreateRestaurantRequest,
 } from "../lib/definitions";
-import createHttpError from "http-errors";
+
+import { NextRequest } from "next/server";
 
 // #region Restaurant
 export async function getRestaurants({ page }: RestaurantsRequest) {
@@ -79,25 +80,28 @@ export async function createRestaurant({ formData }: { formData: FormData }) {
   // headers.append("Content-Type", "multipart/form-data");
   headers.append("Authorization", session.toString());
 
-  const request = new Request(new URL("/api/restaurant/create", API_BASE_URL), {
-    method: "POST",
-    cache: "no-cache",
-    mode: "cors",
-    headers,
-    body: formData,
-  });
+  const request = new NextRequest(
+    new URL("/api/restaurant/create", API_BASE_URL),
+    {
+      method: "POST",
+      cache: "no-cache",
+      mode: "cors",
+      headers,
+      body: formData,
+    }
+  );
 
   try {
     const response = await fetch(request);
 
-    if (response?.ok) return "Created";
-    if (!response?.ok)
-      throw createHttpError(
-        response.status,
-        `Error from service: ${response.statusText}`
-      );
+    if (response?.ok)
+      return { message: "Created", nextUrl: request.nextUrl.pathname };
+    if (!response?.ok) {
+      const error = await response.json();
+      return { error: error?.message };
+    }
   } catch (error) {
     console.error(error);
-    return error;
+    return { error };
   }
 }

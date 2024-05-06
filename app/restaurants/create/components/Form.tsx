@@ -13,7 +13,7 @@ export default function Form() {
   const [file, setFile] = useState(null);
   const fileRef = useRef(null);
 
-  const [state, action] = useFormState(createRestaurant, undefined);
+  const [state, action] = useFormState(createRestaurant, { message: "" });
 
   const { pending, data } = useFormStatus();
 
@@ -64,7 +64,7 @@ export default function Form() {
       />
       <div className="flex flex-col gap-4 px-4 w-full ">
         <Input
-          autocomplete={false}
+          // autocomplete={false}
           loading={pending}
           hierarchy="loud"
           label="Nombre *"
@@ -73,7 +73,7 @@ export default function Form() {
           name="name"
         />
         <Input
-          autocomplete={false}
+          // autocomplete={false}
           loading={pending}
           hierarchy="loud"
           label="Dirección *"
@@ -82,7 +82,7 @@ export default function Form() {
           name="address"
         />
         <Input
-          autocomplete={false}
+          // autocomplete={false}
           loading={pending}
           hierarchy="loud"
           label="Latitud *"
@@ -91,7 +91,7 @@ export default function Form() {
           name="latlng[lat]"
         />
         <Input
-          autocomplete={false}
+          // autocomplete={false}
           loading={pending}
           hierarchy="loud"
           label="Longitud *"

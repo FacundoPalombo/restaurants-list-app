@@ -1,6 +1,8 @@
 import { getRestaurants } from "../services/restaurants";
 import RestaurantContainer from "./components/RestaurantContainer";
 import { RestaurantList } from "../lib/definitions";
+import { Suspense } from "react";
+import Skeleton from "./components/Skeleton";
 
 export default async function Page() {
   const restaurantsResponse: RestaurantList = await getRestaurants({
@@ -10,7 +12,9 @@ export default async function Page() {
 
   return (
     <main id="restaurants" className="overflow-hidden w-full h-[90vh]">
-      <RestaurantContainer restaurants={restaurants} />
+      <Suspense fallback={<Skeleton />}>
+        <RestaurantContainer restaurants={restaurants} />
+      </Suspense>
     </main>
   );
 }

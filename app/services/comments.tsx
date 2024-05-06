@@ -52,19 +52,16 @@ export async function createComment({
     const payload = await response.text();
     if (response?.ok) {
       revalidatePath(`/restaurants/${restaurantId}`);
-      return { ok: true, payload };
+      return { ok: true, message: payload };
     }
     if (!response?.ok) {
-      console.error(response);
-
-      throw createHttpError(
-        response.status,
-        `Error inesperado: ${response.statusText}`
-      );
+      const error = await response.json();
+      console.error(error);
+      return { error };
     }
   } catch (error) {
     console.error(error);
-    return error;
+    return { error };
   }
 }
 
@@ -120,19 +117,16 @@ export async function updateComment({
     const payload = await response.text();
     if (response?.ok) {
       revalidatePath(`/restaurants/${restaurantId}`);
-      return { ok: true, payload };
+      return { ok: true, message: payload };
     }
     if (!response?.ok) {
-      console.error(response);
-
-      throw createHttpError(
-        response.status,
-        `Error inesperado: ${response.statusText}`
-      );
+      const error = await response.json();
+      console.error(error);
+      return { error };
     }
   } catch (error) {
     console.error(error);
-    return error;
+    return { error };
   }
 }
 // #region delete
@@ -173,18 +167,15 @@ export async function deleteComment({
     const payload = await response.text();
     if (response?.ok) {
       revalidatePath(`/restaurants/${restaurantId}`);
-      return { ok: true, payload };
+      return { ok: true, message: payload };
     }
     if (!response?.ok) {
-      console.error(response);
-
-      throw createHttpError(
-        response.status,
-        `Error inesperado: ${response.statusText}`
-      );
+      const error = await response.json();
+      console.error(error);
+      return { error };
     }
   } catch (error) {
     console.error(error);
-    return error;
+    return { error };
   }
 }

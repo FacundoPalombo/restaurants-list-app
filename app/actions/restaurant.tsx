@@ -35,12 +35,16 @@ export async function createRestaurant(state, formData: FormData) {
   try {
     const response = await createRestaurantService({ formData });
 
-    if (response) {
+    if (response?.message === "Created") {
       revalidatePath("/restaurants");
-      return NextResponse.redirect("/restaurants/create/success");
+      return NextResponse.redirect(
+        new URL("/restaurants/create/success", response.nextUrl)
+      );
+    } else {
+      return { error: response?.error };
     }
   } catch (error) {
     console.error(error);
-    return error;
+    return { error };
   }
 }
