@@ -14,12 +14,15 @@ export async function createComment({
   restaurantId,
   formData,
 }: CommentServiceParams) {
-  const session = cookies().get("session")?.toString() as string;
+  const session = cookies()?.get("session")?.value;
+  if (!session) {
+    throw new Error("Should be logged in");
+  }
 
   // Prepare request headers
   const headers = new Headers();
   headers.append("Content-Type", "application/x-www-form-urlencoded");
-  headers.append("Authorization", session);
+  headers.append("Authorization", session.toString());
 
   const comment = formData.get("comment");
   const rating = formData.get("rating");
@@ -27,7 +30,7 @@ export async function createComment({
   // Generate encoded params for POST api
   const encodedData = new URLSearchParams();
 
-  if (typeof comment === "string" && typeof rating === "number") {
+  if (typeof comment === "string" && typeof rating === "string") {
     encodedData.append("comment", comment);
     encodedData.append("rating", rating);
   }
@@ -46,8 +49,10 @@ export async function createComment({
   try {
     const response = await fetch(request);
 
+    const payload = await response.text();
     if (response?.ok) {
-      revalidatePath("/");
+      revalidatePath(`/restaurants/${restaurantId}`);
+      return { ok: true, payload };
     }
     if (!response?.ok) {
       console.error(response);

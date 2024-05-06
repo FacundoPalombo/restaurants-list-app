@@ -10,6 +10,8 @@ type ButtonProps = {
   children?: ReactNode;
   label?: string;
   className?: string;
+  htmlFor?: string;
+  disabled?: boolean;
 };
 
 export default function Button({
@@ -19,6 +21,8 @@ export default function Button({
   children,
   label,
   className,
+  htmlFor,
+  disabled,
 }: ButtonProps) {
   const buttonBaseStyles =
     "rounded-xl px-2 py-1 border text-l md:text-xl font-semibold border-black w-fit select-none";
@@ -26,6 +30,8 @@ export default function Button({
     return (
       <button
         type={type}
+        disabled={disabled}
+        form={htmlFor}
         className={clsx(buttonBaseStyles, className)}
         onClick={onClick}
       >
