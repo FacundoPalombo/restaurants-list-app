@@ -18,15 +18,20 @@ export async function create(restaurantId: string, formData: FormData) {
   });
 
   if (!validatedFields.success) {
+    console.log(formData, "tremendo 2");
+
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
+  console.log(formData, "tremendo");
   try {
     const response = await createComment({ restaurantId, formData });
-    if (response) return "Created";
+
+    console.log(response);
+    if (response) return { message: response };
   } catch (error) {
-    return error;
+    return { error };
   }
 }
 // #region update
@@ -53,7 +58,7 @@ export async function update(
     const response = await updateComment({ commentId, restaurantId, formData });
     if (response) return "Updated";
   } catch (error) {
-    return error;
+    return { error };
   }
 }
 
@@ -63,8 +68,8 @@ export async function deleteComment(restaurantId: string, commentId: string) {
   // Validate form fields
   try {
     const response = await DeleteComment({ restaurantId, commentId });
-    if (response) return "Deleted";
+    if (response) return { data: "Deleted" };
   } catch (error) {
-    return error;
+    return { error };
   }
 }

@@ -31,9 +31,8 @@ export async function createAccount(formData: FormData) {
     const response = await fetch(request);
     if (!response.ok) {
       const error = await response.json();
-
       console.error(error);
-      throw new Error(error?.message);
+      return { error };
     }
 
     return Response.json({ message: "Se creo la cuenta satisfactoriamente" });
@@ -110,7 +109,7 @@ export async function doLogin(formData: FormData) {
 
       const payload = { userId, email, username };
 
-      return Response.json({ message: "Inición seseada", payload });
+      return Response.json({ message: "Inición seseada", data: payload });
     } catch (error) {
       console.error(error);
       return { error };
@@ -131,11 +130,12 @@ export async function verifySession() {
   try {
     // Verify if the session is currently valid, otherwise should return error and handle it on middlewares
     const response = await fetch(request);
-    const payload = await response.json();
 
     if (!response?.ok) return { error: "Error trying to validate session" };
-
-    return { ok: true, payload };
+    if (response.ok) {
+      const payload = await response.json();
+      return { ok: true, payload };
+    }
   } catch (error) {
     console.error(error);
     return { error };
@@ -157,15 +157,16 @@ export async function logout() {
   try {
     // Verify if the session is currently valid, otherwise should return error and handle it on middlewares
     const response = await fetch(request);
-    const payload = await response.text();
     console.log(response);
-    if (!response?.ok)
-      return createHttpError(
-        response?.status,
-        `Error intentando cerrar la sesion: ${response?.statusText}`
-      );
 
-    return { ok: true, payload };
+    if (response.ok) {
+      const payload = await response.text();
+      return { ok: true, message: payload };
+    }
+    if (!response?.ok) {
+      const error = await response.json();
+      return { error };
+    }
   } catch (error) {
     console.error(error);
     return { error };

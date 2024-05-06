@@ -48,13 +48,16 @@ export async function createComment({
 
   try {
     const response = await fetch(request);
+    console.log(response);
 
     const payload = await response.text();
+
     if (response?.ok) {
       revalidatePath(`/restaurants/${restaurantId}`);
-      return { ok: true, message: payload };
+      return { message: payload };
     }
     if (!response?.ok) {
+      console.log(response);
       const error = await response.json();
       console.error(error);
       return { error };
@@ -117,7 +120,7 @@ export async function updateComment({
     const payload = await response.text();
     if (response?.ok) {
       revalidatePath(`/restaurants/${restaurantId}`);
-      return { ok: true, message: payload };
+      return { message: payload };
     }
     if (!response?.ok) {
       const error = await response.json();

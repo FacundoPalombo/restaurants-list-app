@@ -1,8 +1,8 @@
 import { deleteComment } from "@/app/actions/comments";
 import Button from "@/app/components/Button";
-import clsx from "clsx";
+import { useFormStatus } from "react-dom";
 
-export default function DeleteForm({
+export default function DeleteComment({
   restaurantId,
   commentId,
 }: {
@@ -14,12 +14,12 @@ export default function DeleteForm({
     restaurantId as string,
     commentId
   );
+  const { pending } = useFormStatus();
   return (
     <form action={deleteCommentWithIds}>
       <Button
-        className={clsx(
-          "bg-red-400 hover:bg-red-300 active:bg-red-500 transition-colors"
-        )}
+        hierarchy="danger"
+        loading={pending}
         label="Eliminar"
         type="submit"
       />

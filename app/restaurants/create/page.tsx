@@ -2,7 +2,7 @@ import Form from "./components/Form";
 
 export default async function Page() {
   return (
-    <main id="add-restaurant" className="w-full h-full">
+    <main id="create-restaurant" className="container">
       <Form />
     </main>
   );

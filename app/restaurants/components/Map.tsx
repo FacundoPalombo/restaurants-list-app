@@ -5,8 +5,8 @@ import { LatLngExpression, LeafletMouseEventHandlerFn } from "leaflet";
 import { Suspense, useContext, useEffect, useRef, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
-import Link from "next/link";
 import { RestaurantContext } from "./RestaurantContainer";
+import Button from "@/app/components/Button";
 
 type MapProps = {
   restaurants: Restaurant[];
@@ -122,12 +122,9 @@ function RestaurantMarker({
           <h2 className="text-2xl">
             <b>{name}</b>, {address}
           </h2>
-          <Link
-            className="rounded-xl px-2 py-1 border text-lg font-semibold border-black w-max"
-            href={`/restaurants/${_id}`}
-          >
+          <Button type="link" href={`/restaurants/${_id}`}>
             Ver el restaurante
-          </Link>
+          </Button>
         </div>
       </Popup>
     </Marker>

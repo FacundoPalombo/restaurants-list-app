@@ -1,15 +1,20 @@
 import { logout } from "@/app/services/auth";
 import { HttpError } from "http-errors";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
     const response = await logout();
 
-    if (response.ok) return Response.json({ payload: response.payload });
-    if (response instanceof HttpError) {
-      return Response.error();
+    if (response?.ok) {
+      console.log({ message: response?.message });
+      return NextResponse.redirect("/login");
+    }
+    if (!response?.ok) {
+      console.log({ error: response?.error });
+      return NextResponse.error();
     }
   } catch (error) {
-    return Response.json({ error });
+    return NextResponse.error();
   }
 }

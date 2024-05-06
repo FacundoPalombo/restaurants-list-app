@@ -7,7 +7,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import { signup } from "@/app/actions/auth";
 
 import Input from "@/app/components/Input";
-import ButtonForm from "@/app/components/ButtonForm";
+import Button from "@/app/components/Button";
 import ArrowBack from "@/app/components/svg/ArrowBack";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
@@ -23,58 +23,9 @@ export default function Form() {
     }
   }, [state?.errors]);
 
-  function Button() {
-    return (
-      <>
-        {step === 1 && (
-          <ButtonForm
-            label="Siguiente"
-            onClick={() => setStep(2)}
-            tabIndex={4}
-          />
-        )}
-        {step === 2 && (
-          <ButtonForm
-            label="Finalizar"
-            htmlFor="signup"
-            tabIndex={6}
-            disabled={pending}
-          />
-        )}
-      </>
-    );
-  }
-
-  function Back() {
-    return (
-      <>
-        {step === 1 && (
-          <Link
-            href="/login"
-            className="border border-[#fff] rounded-xl  px-3 py-1 w-fit block mb-4"
-            tabIndex={1}
-            aria-label="Volver al inicio de sesión"
-          >
-            <ArrowBack />
-          </Link>
-        )}
-        {step === 2 && (
-          <button
-            onClick={() => setStep(1)}
-            tabIndex={4}
-            aria-label="Volver a editar email o nombre de usuario"
-            className="border border-[#fff] rounded-xl  px-3 py-1 w-fit block mb-4"
-          >
-            <ArrowBack />
-          </button>
-        )}
-      </>
-    );
-  }
-
   return (
     <div>
-      <Back />
+      <Back step={step} setStep={setStep} />
       <form
         id="signup"
         action={action}
@@ -144,8 +95,70 @@ export default function Form() {
             </div>
           </div>
         </div>
-        <Button />
+        <Submit step={step} setStep={setStep} />
       </form>
     </div>
+  );
+}
+
+function Submit({ step, setStep }: { step: number; setStep: Function }) {
+  const { pending } = useFormStatus();
+  return (
+    <>
+      {step === 1 && (
+        <Button
+          hierarchy="loud"
+          rounded="2xl"
+          label="Siguiente"
+          type="button"
+          onClick={() => setStep(2)}
+          tabIndex={4}
+        />
+      )}
+      {step === 2 && (
+        <Button
+          hierarchy="loud"
+          rounded="2xl"
+          label="Finalizar"
+          type="submit"
+          htmlFor="signup"
+          tabIndex={6}
+          disabled={pending}
+        />
+      )}
+    </>
+  );
+}
+
+function Back({ step, setStep }: { step: number; setStep: Function }) {
+  return (
+    <>
+      {step === 1 && (
+        <Button
+          type="link"
+          href="/login"
+          hierarchy="loud"
+          rounded="2xl"
+          iconOnly
+          tabIndex={1}
+          ariaLabel="Volver al inicio de sesión"
+        >
+          <ArrowBack />
+        </Button>
+      )}
+      {step === 2 && (
+        <Button
+          hierarchy="loud"
+          type="button"
+          rounded="2xl"
+          iconOnly
+          onClick={() => setStep(1)}
+          tabIndex={4}
+          ariaLabel="Volver a editar email o nombre de usuario"
+        >
+          <ArrowBack />
+        </Button>
+      )}
+    </>
   );
 }

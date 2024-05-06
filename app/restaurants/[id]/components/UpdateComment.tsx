@@ -5,9 +5,10 @@ import Button from "@/app/components/Button";
 import clsx from "clsx";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import DeleteForm from "./DeleteForm";
-import { Review } from "@/app/lib/definitions";
+import DeleteComment from "./DeleteComment";
+
 import Star from "@/app/components/svg/Star";
+import { useFormStatus } from "react-dom";
 
 function Heading({
   owner,
@@ -58,7 +59,7 @@ function Heading({
   );
 }
 
-export default function EditingForm({
+export default function UpdateComment({
   comment,
   _id,
   rating,
@@ -76,6 +77,7 @@ export default function EditingForm({
   const [newRating, setNewRating] = useState(rating);
 
   const { id: restaurantId }: { id: string } = useParams();
+  const { pending } = useFormStatus();
 
   useEffect(() => {
     console.log(newRating);
@@ -113,37 +115,32 @@ export default function EditingForm({
       ></textarea>
       <div className="flex flex-row gap-2 justify-end py-2 md:py-4">
         <Button
-          className={clsx(
-            !isEditing && "hidden",
-            "bg-gray-300 hover:bg-gray-50 transition-colors"
-          )}
+          className={clsx(!isEditing && "hidden")}
+          hierarchy="indifferent"
           type="button"
           label="Cancelar"
           onClick={handleCancelEdit}
         />
         <Button
-          className={clsx(
-            isEditing && "hidden",
-            "bg-tailor-blue border text-white hover:bg-blue-500 active:bg-blue-700 transition-colors"
-          )}
+          className={clsx(isEditing && "hidden")}
+          hierarchy="primary"
           type="button"
           label={"Editar"}
           onClick={() => setIsEditing(true)}
         />
 
         <Button
-          className={clsx(
-            !isEditing && "hidden",
-            "bg-green-600 text-white hover:bg-green-400 active:bg-green-700 transition-colors"
-          )}
+          className={clsx(!isEditing && "hidden")}
+          hierarchy="confirm"
           type="button"
           label={"Confirmar"}
+          loading={pending}
           onClick={() => {
             updateSubmitRef.current.click();
             setIsEditing(false);
           }}
         />
-        <DeleteForm restaurantId={restaurantId} commentId={_id} />
+        <DeleteComment restaurantId={restaurantId} commentId={_id} />
       </div>
     </section>
   );

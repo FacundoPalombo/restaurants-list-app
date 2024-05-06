@@ -1,5 +1,5 @@
 import { Review } from "@/app/lib/definitions";
-import EditingForm from "./EditingForm";
+import UpdateComment from "./UpdateComment";
 
 export default function ReviewComponent({
   owner,
@@ -10,7 +10,7 @@ export default function ReviewComponent({
   return (
     <section className=" w-full" aria-label={`Review de: ${owner.name}`}>
       <div className="flex flex-col gap-4 mx-4">
-        <EditingForm
+        <UpdateComment
           comment={comment}
           _id={_id}
           rating={rating}

@@ -10,7 +10,7 @@ export default function Login() {
   return (
     <MainBoxes picture={{ src: officePicture, alt: "People on the office" }}>
       <AuthCard>
-        <span className="text-[white]">
+        <span className="text-white">
           ¿No tienes cuenta?{" "}
           <Link className="font-semibold" href="/signup">
             Regístrate

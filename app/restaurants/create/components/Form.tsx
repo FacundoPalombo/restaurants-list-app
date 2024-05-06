@@ -32,7 +32,7 @@ export default function Form() {
   return (
     <form
       action={action}
-      className="flex flex-col-reverse px-6 gap-6 items-center sm:flex-row"
+      className="relative flex flex-col-reverse px-6 gap-6 items-center sm:flex-row"
     >
       <button
         className="my-4 drop-shadow-lg"
@@ -64,7 +64,7 @@ export default function Form() {
       />
       <div className="flex flex-col gap-4 px-4 w-full ">
         <Input
-          // autocomplete={false}
+          autocomplete={false}
           loading={pending}
           hierarchy="loud"
           label="Nombre *"
@@ -73,7 +73,7 @@ export default function Form() {
           name="name"
         />
         <Input
-          // autocomplete={false}
+          autocomplete={false}
           loading={pending}
           hierarchy="loud"
           label="Dirección *"
@@ -82,7 +82,7 @@ export default function Form() {
           name="address"
         />
         <Input
-          // autocomplete={false}
+          autocomplete={false}
           loading={pending}
           hierarchy="loud"
           label="Latitud *"
@@ -91,7 +91,7 @@ export default function Form() {
           name="latlng[lat]"
         />
         <Input
-          // autocomplete={false}
+          autocomplete={false}
           loading={pending}
           hierarchy="loud"
           label="Longitud *"
@@ -116,8 +116,10 @@ export default function Form() {
 
         <Button
           type="submit"
+          hierarchy="loud"
+          size="xl"
+          rounded="full"
           label="Guardar"
-          className="bg-tailor-blue border text-white hover:bg-blue-500 active:bg-blue-700 transition-colors"
         />
       </div>
     </form>

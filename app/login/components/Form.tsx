@@ -4,6 +4,7 @@ import { useFormState } from "react-dom";
 import { login } from "@/app/actions/auth";
 import Input from "@/app/components/Input";
 import ButtonForm from "@/app/components/ButtonForm";
+import Button from "@/app/components/Button";
 
 export default function Form() {
   const [state, action] = useFormState(login, undefined);
@@ -21,7 +22,7 @@ export default function Form() {
         type="password"
         placeholder="Escribe tu password"
       />
-      <ButtonForm label="Entrar" htmlFor="login" />
+      <Button type="submit" hierarchy="loud" label="Entrar" htmlFor="login" />
     </form>
   );
 }

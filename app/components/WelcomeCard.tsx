@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "./svg/Logo";
 import { headers } from "next/headers";
+import Button from "./Button";
 
 export default function WelcomeCard() {
   //TODO: Implementar logica redireccion al login desde el referer
@@ -13,15 +14,15 @@ export default function WelcomeCard() {
         Hola, <br /> Bienvenido a la prueba de Tailor hub, en ella has de añadir
         los restaurantes favoritos donde te gustaría ir en tu onboarding.
       </p>
-      <Link
+      <Button
         href="/signup"
-        role="button"
-        aria-label="Entra a ver los restaurantes"
-        className="rounded-xl px-2 py-1 border text-l md:text-xl font-semibold border-black w-min"
+        hierarchy="quiet"
+        type="link"
+        ariaLabel="Entra a ver los restaurantes"
       >
         {" "}
         Entrar
-      </Link>
+      </Button>
     </section>
   );
 }

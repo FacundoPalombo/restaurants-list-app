@@ -2,10 +2,16 @@
 
 import clsx from "clsx";
 import Link from "next/link";
-import { useCallback, useState } from "react";
-import useLogout from "../hooks/useLogout";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import ArrowUp from "./svg/ArrowUp";
 import styles from "./UserNav.module.css";
+import Spinner from "./svg/Spinner";
+import useSWR from "swr";
+import fetcher from "../utils/fetcher";
+import Button from "./Button";
+import { useFormStatus } from "react-dom";
 
 type UserNavProps = {
   username: string;
@@ -14,11 +20,22 @@ type UserNavProps = {
 export default function UserNav({ username }: UserNavProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [doLogout, setDoLogout] = useState(false);
-  const { logout, isLoading, error } = useLogout(doLogout);
+
+  const router = useRouter();
+
+  const { data, error, isLoading } = useSWR(
+    doLogout ? "/api/logout" : null,
+    fetcher
+  );
+
+  useEffect(() => {
+    if (data?.payload === "Accepted") {
+      router.push("/login");
+    }
+  }, [data]);
 
   const handleLogout = useCallback(() => {
     setDoLogout(true);
-    setIsOpen(false);
   }, [doLogout]);
 
   return (
@@ -39,7 +56,7 @@ export default function UserNav({ username }: UserNavProps) {
           className={clsx(
             !isOpen && "invisible ease-in-out  opacity-5",
             "transition-opacity delay-0 duration-100",
-            "absolute z-50 top-16 right-4 w-max h-min bg-tailor-blue p-4 pt-6 rounded-2xl rounded-tr-none text-white"
+            "absolute z-50 top-16 right-4 w-max h-min bg-tailor-blue p-4 pt-6 rounded-2xl rounded-tr-none text-white shadow-lg border border-slate-300"
           )}
         >
           <ul className="md:text-lg flex flex-col gap-2">
@@ -56,19 +73,35 @@ export default function UserNav({ username }: UserNavProps) {
             </li>
             <hr className="border-white my-4" />
             <li>
-              <button
-                className={clsx(
-                  " md:text-xl font-semibold p-3 border border-white rounded-3xl w-full transition-[outline] duration-[50ms] hover:outline hover:outline-2 hover:outline-white",
-                  isLoading && "animation-spinner"
-                )}
-                onClick={handleLogout}
-              >
-                Cerrar Sesión
-              </button>
+              <form id="logout">
+                <Logout />
+              </form>
             </li>
           </ul>
         </div>
       </nav>
     </header>
+  );
+}
+
+function Logout() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      label="Cerrar Sesión"
+      type="submit"
+      hierarchy="loud"
+      htmlFor="logout"
+      loading={pending}
+      size="lg"
+      rounded="2xl"
+      className={clsx(
+        "relative flex flex-row items-center align-middle justify-between gap-2 p-3 w-full ",
+        "md:text-xl font-semibold border border-white rounded-3xl "
+      )}
+    >
+      {pending && <Spinner />}
+    </Button>
   );
 }
