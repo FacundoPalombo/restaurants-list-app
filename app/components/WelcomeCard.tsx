@@ -17,6 +17,7 @@ export default function WelcomeCard() {
       <Button
         href="/signup"
         hierarchy="quiet"
+        tipology="cartoon"
         type="link"
         ariaLabel="Entra a ver los restaurantes"
       >

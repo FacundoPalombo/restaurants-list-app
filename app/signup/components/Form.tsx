@@ -29,73 +29,75 @@ export default function Form() {
       <form
         id="signup"
         action={action}
-        className="flex flex-col gap-6 overflow-hidden"
+        className="relative p-1 -m-1 overflow-hidden"
       >
-        <div className="flex w-[200%]">
-          <div className="block w-full">
+        <div className="flex flex-col gap-6">
+          <div className="flex w-[200%]">
+            <div className="block w-full">
+              <div
+                className={clsx(
+                  "overflow-hidden",
+                  "flex flex-col gap-6 relative",
+                  "transition-[transform,visibility]",
+                  step === 2 && "invisible translate-x-[-100%]"
+                )}
+              >
+                <Input
+                  label="Email:"
+                  name="email"
+                  placeholder="Añade tu email"
+                  tabIndex={2}
+                  autoFocus
+                  error={Boolean(state?.errors?.email)}
+                />
+                {state?.errors?.email && (
+                  <p className="text-danger">{state.errors.email}</p>
+                )}
+                <Input
+                  label="Nombre de usuario:"
+                  name="username"
+                  placeholder="Añade tu nombre de usuario"
+                  tabIndex={3}
+                  error={Boolean(state?.errors?.username)}
+                />
+                {state?.errors?.username && (
+                  <p className="text-danger">{state.errors.username}</p>
+                )}
+              </div>
+            </div>
             <div
               className={clsx(
+                "block w-full",
                 "overflow-hidden",
-                "flex flex-col gap-6 relative",
                 "transition-[transform,visibility]",
-                step === 2 && "invisible translate-x-[-100%]"
+                "translate-x-[-100%]",
+                step === 1 && "invisible translate-x-[100%]"
               )}
             >
-              <Input
-                label="Email:"
-                name="email"
-                placeholder="Añade tu email"
-                tabIndex={2}
-                autoFocus
-                error={Boolean(state?.errors?.email)}
-              />
-              {state?.errors?.email && (
-                <p className="text-danger">{state.errors.email}</p>
-              )}
-              <Input
-                label="Nombre de usuario:"
-                name="username"
-                placeholder="Añade tu nombre de usuario"
-                tabIndex={3}
-                error={Boolean(state?.errors?.username)}
-              />
-              {state?.errors?.username && (
-                <p className="text-danger">{state.errors.username}</p>
-              )}
+              <div className={clsx("flex flex-col gap-6")}>
+                <Input
+                  label="Contraseña:"
+                  name="password"
+                  type="password"
+                  placeholder="Crea tu contraseña"
+                  tabIndex={5}
+                  error={Boolean(state?.errors?.password)}
+                />
+                {state?.errors?.password && (
+                  <div className="text-danger">
+                    <p>El password debe contener:</p>
+                    <ul>
+                      {state.errors.password.map((error) => (
+                        <li key={error}>- {error}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-          <div
-            className={clsx(
-              "block w-full",
-              "overflow-hidden",
-              "transition-[transform,visibility]",
-              "translate-x-[-100%]",
-              step === 1 && "invisible translate-x-[100%]"
-            )}
-          >
-            <div className={clsx("flex flex-col gap-6")}>
-              <Input
-                label="Contraseña:"
-                name="password"
-                type="password"
-                placeholder="Crea tu contraseña"
-                tabIndex={5}
-                error={Boolean(state?.errors?.password)}
-              />
-              {state?.errors?.password && (
-                <div className="text-danger">
-                  <p>El password debe contener:</p>
-                  <ul>
-                    {state.errors.password.map((error) => (
-                      <li key={error}>- {error}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          </div>
+          <Submit step={step} setStep={setStep} />
         </div>
-        <Submit step={step} setStep={setStep} />
       </form>
     </div>
   );
