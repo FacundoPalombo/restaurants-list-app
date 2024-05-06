@@ -11,10 +11,10 @@ import Button from "@/app/components/Button";
 import ArrowBack from "@/app/components/svg/ArrowBack";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import Spinner from "@/app/components/svg/Spinner";
 
 export default function Form() {
   const [state, action] = useFormState(signup, undefined);
-  const { pending } = useFormStatus();
   const [step, setStep] = useState(1);
 
   useEffect(() => {
@@ -126,7 +126,9 @@ function Submit({ step, setStep }: { step: number; setStep: Function }) {
           htmlFor="signup"
           tabIndex={6}
           disabled={pending}
-        />
+        >
+          {pending && <Spinner />}
+        </Button>
       )}
     </>
   );

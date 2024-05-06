@@ -1,9 +1,10 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { login } from "@/app/actions/auth";
 import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
+import Spinner from "@/app/components/svg/Spinner";
 
 export default function Form() {
   const [state, action] = useFormState(login, undefined);
@@ -21,7 +22,17 @@ export default function Form() {
         type="password"
         placeholder="Escribe tu password"
       />
-      <Button type="submit" hierarchy="loud" label="Entrar" htmlFor="login" />
+      <Submit />
     </form>
+  );
+}
+
+function Submit() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" hierarchy="loud" label="Entrar" htmlFor="login">
+      {pending && <Spinner />}
+    </Button>
   );
 }

@@ -2,16 +2,17 @@
 
 import clsx from "clsx";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Toaster, toast } from "sonner";
 
 import ArrowUp from "./svg/ArrowUp";
 import styles from "./UserNav.module.css";
 import Spinner from "./svg/Spinner";
-import useSWR from "swr";
-import fetcher from "../utils/fetcher";
+
 import Button from "./Button";
 import { useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
+import { logout } from "../actions/auth";
 
 type UserNavProps = {
   username: string;
@@ -19,24 +20,17 @@ type UserNavProps = {
 
 export default function UserNav({ username }: UserNavProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [doLogout, setDoLogout] = useState(false);
 
-  const router = useRouter();
-
-  const { data, error, isLoading } = useSWR(
-    doLogout ? "/api/logout" : null,
-    fetcher
-  );
+  const [state, action] = useFormState(logout, undefined);
 
   useEffect(() => {
-    if (data?.payload === "Accepted") {
-      router.push("/login");
+    console.log(state);
+    if (state?.error) {
+      toast.error(state?.error, { closeButton: true });
+      if (state?.error?.payload?.message) {
+      }
     }
-  }, [data]);
-
-  const handleLogout = useCallback(() => {
-    setDoLogout(true);
-  }, [doLogout]);
+  }, [state]);
 
   return (
     <header className="flex flex-row-reverse my-4">
@@ -73,13 +67,14 @@ export default function UserNav({ username }: UserNavProps) {
             </li>
             <hr className="border-white my-4" />
             <li>
-              <form id="logout">
+              <form action={action} id="logout">
                 <Logout />
               </form>
             </li>
           </ul>
         </div>
       </nav>
+      <Toaster richColors position="bottom-right" />
     </header>
   );
 }

@@ -117,8 +117,12 @@ export default function UpdateComment({
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
       ></textarea>
-      <form id="update-comment" action={updateCommentWithIds}>
-        <div className="flex flex-row gap-2 justify-end py-2 md:py-4">
+      <div className="flex flex-row gap-2 justify-end items-center py-2 md:py-4">
+        <form
+          className="flex flex-row gap-2 justify-end py-2 md:py-4"
+          id="update-comment"
+          action={updateCommentWithIds}
+        >
           <Button
             tipology="cartoon"
             className={clsx(!isEditing && "hidden")}
@@ -145,9 +149,9 @@ export default function UpdateComment({
               setIsEditing(false);
             }}
           />
-          <DeleteComment restaurantId={restaurantId} commentId={_id} />
-        </div>
-      </form>
+        </form>
+        <DeleteComment restaurantId={restaurantId} commentId={_id} />
+      </div>
     </section>
   );
 }

@@ -146,6 +146,10 @@ export async function logout() {
   const session = cookies().get("session")?.value as string;
   const refreshToken = cookies().get("refreshToken")?.value as string;
 
+  const headers = new Headers();
+  headers.append("Authorization", session?.toString());
+  headers.append("Cookie", refreshToken?.toString());
+
   const request = new Request(new URL("/api/auth/logout", API_BASE_URL), {
     method: "GET",
     headers: {

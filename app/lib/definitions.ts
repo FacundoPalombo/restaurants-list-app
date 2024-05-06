@@ -66,6 +66,13 @@ export type LoginFormState =
     }
   | undefined;
 
+export type LogoutFormState =
+  | {
+      error?: { message: string } | Error;
+      message?: string;
+    }
+  | undefined;
+
 export type Login = z.infer<typeof LoginSchema>;
 
 export type SessionPayload = {

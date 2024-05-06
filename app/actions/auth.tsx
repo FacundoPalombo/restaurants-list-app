@@ -5,9 +5,15 @@ import {
   SignupFormState,
   LoginSchema,
   LoginFormState,
+  LogoutFormState,
 } from "../lib/definitions";
-import { createAccount, doLogin } from "../services/auth";
+import {
+  createAccount,
+  doLogin,
+  logout as logoutService,
+} from "../services/auth";
 import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 
 export async function signup(state: SignupFormState, formData: FormData) {
   // Validate form fields
@@ -60,6 +66,25 @@ export async function login(state: LoginFormState, formData: FormData) {
       }
       if (!response?.ok)
         return { error: "Unexpected Error", payload: response };
+    }
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+
+  redirect("/restaurants");
+}
+
+export async function logout(state: LogoutFormState, formData: FormData) {
+  try {
+    const response = await logoutService();
+
+    if (response?.ok) {
+      revalidatePath("/restaurants");
+      return NextResponse.redirect("/login");
+    }
+    if (!response?.ok) {
+      return { error: "Error al cerrar la sesión", payload: response };
     }
   } catch (error) {
     console.error(error);
