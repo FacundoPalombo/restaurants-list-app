@@ -64,6 +64,7 @@ function Submit() {
   const { pending } = useFormStatus();
   return (
     <Button
+      tipology="cartoon"
       htmlFor="comment"
       hierarchy="confirm"
       disabled={pending}

@@ -4,11 +4,18 @@ import { update } from "@/app/actions/comments";
 import Button from "@/app/components/Button";
 import clsx from "clsx";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import DeleteComment from "./DeleteComment";
 
 import Star from "@/app/components/svg/Star";
 import { useFormStatus } from "react-dom";
+import Spinner from "@/app/components/svg/Spinner";
 
 function Heading({
   owner,
@@ -79,9 +86,7 @@ export default function UpdateComment({
   const { id: restaurantId }: { id: string } = useParams();
   const { pending } = useFormStatus();
 
-  useEffect(() => {
-    console.log(newRating);
-  }, [newRating]);
+  useEffect(() => {}, [newRating]);
 
   const updateCommentWithIds = update.bind(null, _id, restaurantId as string);
 
@@ -99,10 +104,9 @@ export default function UpdateComment({
         setRating={setNewRating}
         isEditing={isEditing}
       />
-      <form hidden action={updateCommentWithIds}>
+      <form id="update-comment" hidden action={updateCommentWithIds}>
         <input type="text" hidden name="comment" value={newComment} />
         <input type="number" hidden name="rating" value={newRating} />
-        <input type="submit" hidden ref={updateSubmitRef} />
       </form>
       <p className={clsx(isEditing && "hidden")}>{comment}</p>
       <textarea
@@ -113,35 +117,60 @@ export default function UpdateComment({
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
       ></textarea>
-      <div className="flex flex-row gap-2 justify-end py-2 md:py-4">
-        <Button
-          className={clsx(!isEditing && "hidden")}
-          hierarchy="indifferent"
-          type="button"
-          label="Cancelar"
-          onClick={handleCancelEdit}
-        />
-        <Button
-          className={clsx(isEditing && "hidden")}
-          hierarchy="primary"
-          type="button"
-          label={"Editar"}
-          onClick={() => setIsEditing(true)}
-        />
+      <form id="update-comment" action={updateCommentWithIds}>
+        <div className="flex flex-row gap-2 justify-end py-2 md:py-4">
+          <Button
+            tipology="cartoon"
+            className={clsx(!isEditing && "hidden")}
+            hierarchy="indifferent"
+            type="button"
+            label="Cancelar"
+            onClick={handleCancelEdit}
+          />
+          <Button
+            tipology="cartoon"
+            className={clsx(isEditing && "hidden")}
+            hierarchy="primary"
+            type="button"
+            label={"Editar"}
+            onClick={() => setIsEditing(true)}
+          />
 
-        <Button
-          className={clsx(!isEditing && "hidden")}
-          hierarchy="confirm"
-          type="button"
-          label={"Confirmar"}
-          loading={pending}
-          onClick={() => {
-            updateSubmitRef.current.click();
-            setIsEditing(false);
-          }}
-        />
-        <DeleteComment restaurantId={restaurantId} commentId={_id} />
-      </div>
+          <input type="text" hidden name="comment" value={newComment} />
+          <input type="number" hidden name="rating" value={newRating} />
+          <Submit
+            isEditing={isEditing}
+            onSubmit={() => {
+              updateSubmitRef.current.click();
+              setIsEditing(false);
+            }}
+          />
+          <DeleteComment restaurantId={restaurantId} commentId={_id} />
+        </div>
+      </form>
     </section>
+  );
+}
+
+function Submit({
+  onSubmit,
+  isEditing,
+}: {
+  onSubmit: MouseEventHandler;
+  isEditing: boolean;
+}) {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      className={clsx(!isEditing && "hidden")}
+      tipology="cartoon"
+      hierarchy="confirm"
+      type="submit"
+      label={"Confirmar"}
+      loading={pending}
+      onClick={onSubmit}
+    >
+      {pending && <Spinner />}
+    </Button>
   );
 }

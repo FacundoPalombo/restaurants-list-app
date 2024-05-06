@@ -122,7 +122,7 @@ function RestaurantMarker({
           <h2 className="text-2xl">
             <b>{name}</b>, {address}
           </h2>
-          <Button type="link" href={`/restaurants/${_id}`}>
+          <Button type="link" tipology="cartoon" href={`/restaurants/${_id}`}>
             Ver el restaurante
           </Button>
         </div>

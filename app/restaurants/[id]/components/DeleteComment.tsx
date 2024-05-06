@@ -18,6 +18,7 @@ export default function DeleteComment({
   return (
     <form action={deleteCommentWithIds}>
       <Button
+        tipology="cartoon"
         hierarchy="danger"
         loading={pending}
         label="Eliminar"

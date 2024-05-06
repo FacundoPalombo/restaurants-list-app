@@ -3,7 +3,6 @@
 import { useFormState } from "react-dom";
 import { login } from "@/app/actions/auth";
 import Input from "@/app/components/Input";
-import ButtonForm from "@/app/components/ButtonForm";
 import Button from "@/app/components/Button";
 
 export default function Form() {

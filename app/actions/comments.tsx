@@ -40,6 +40,7 @@ export async function update(
   restaurantId: string,
   formData: FormData
 ) {
+  console.log(formData);
   const comment = formData.get("comment");
   const rating = formData.get("rating");
 

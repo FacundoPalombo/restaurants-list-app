@@ -83,6 +83,7 @@ export default function Button({
     className,
     `rounded-${rounded}`,
     "border font-semibold text-black border-black w-fit select-none transition-colors",
+    "flex flex-row gap-2 justify-between items-center align-middle",
     md && "px-2 py-1 text-md md:text-xl",
     lg && "px-2 py-2 text-lg md:text-2xl",
     xl && "px-4 py-2 text-xl md:text-2xl",
