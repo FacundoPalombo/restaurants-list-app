@@ -22,7 +22,7 @@ export default function RestaurantSkeleton(props: any) {
     return (
       <rect
         x="16"
-        y={`${28 + 16 * index + 32 * index}`}
+        y={`${128 + 16 * index + 32 * index}`}
         rx="12"
         ry="12"
         width={`${global?.window?.innerWidth - 64}`}

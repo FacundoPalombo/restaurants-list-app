@@ -75,6 +75,10 @@ export default function CreateComment({}) {
         <Button
           htmlFor="comment"
           disabled={pending}
+          onClick={() => {
+            setNewComment("");
+            setRating(1);
+          }}
           className={clsx(
             "bg-green-600 text-white hover:bg-green-400 active:bg-green-700 transition-colors",
             pending && "bg-slate-400 animate-pulse"

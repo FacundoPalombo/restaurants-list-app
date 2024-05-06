@@ -70,4 +70,121 @@ export async function createComment({
 
 // #region update
 
+export async function updateComment({
+  restaurantId,
+  commentId,
+  formData,
+}: {
+  restaurantId: string;
+  commentId: string;
+  formData: FormData;
+}) {
+  const session = cookies()?.get("session")?.value;
+  if (!session) {
+    throw new Error("Should be logged in");
+  }
+
+  // Prepare request headers
+  const headers = new Headers();
+  headers.append("Content-Type", "application/x-www-form-urlencoded");
+  headers.append("Authorization", session.toString());
+
+  const comment = formData.get("comment");
+  const rating = formData.get("rating");
+
+  // Generate encoded params for POST api
+  const encodedData = new URLSearchParams();
+
+  if (typeof comment === "string" && typeof rating === "string") {
+    encodedData.append("comment", comment);
+    encodedData.append("rating", rating);
+  }
+
+  const request = new Request(
+    new URL(
+      `/api/restaurant/${restaurantId}/comment/${commentId}`,
+      API_BASE_URL
+    ),
+    {
+      method: "PUT",
+      cache: "no-cache",
+      mode: "cors",
+      headers,
+      body: encodedData,
+    }
+  );
+
+  try {
+    const response = await fetch(request);
+
+    const payload = await response.text();
+    if (response?.ok) {
+      revalidatePath(`/restaurants/${restaurantId}`);
+      return { ok: true, payload };
+    }
+    if (!response?.ok) {
+      console.error(response);
+
+      throw createHttpError(
+        response.status,
+        `Error inesperado: ${response.statusText}`
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
 // #region delete
+
+export async function deleteComment({
+  restaurantId,
+  commentId,
+}: {
+  restaurantId: string;
+  commentId: string;
+}) {
+  const session = cookies()?.get("session")?.value;
+  if (!session) {
+    throw new Error("Should be logged in");
+  }
+
+  // Prepare request headers
+  const headers = new Headers();
+  headers.append("Content-Type", "application/x-www-form-urlencoded");
+  headers.append("Authorization", session.toString());
+
+  const request = new Request(
+    new URL(
+      `/api/restaurant/${restaurantId}/comment/${commentId}`,
+      API_BASE_URL
+    ),
+    {
+      method: "DELETE",
+      cache: "no-cache",
+      mode: "cors",
+      headers,
+    }
+  );
+
+  try {
+    const response = await fetch(request);
+
+    const payload = await response.text();
+    if (response?.ok) {
+      revalidatePath(`/restaurants/${restaurantId}`);
+      return { ok: true, payload };
+    }
+    if (!response?.ok) {
+      console.error(response);
+
+      throw createHttpError(
+        response.status,
+        `Error inesperado: ${response.statusText}`
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}

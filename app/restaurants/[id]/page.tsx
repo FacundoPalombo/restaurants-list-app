@@ -2,7 +2,7 @@ import { getRestaurantDetail } from "@/app/services/restaurants";
 import Hero from "./components/Hero";
 import ReviewComponent from "./components/Review";
 import { Suspense } from "react";
-import RestaurantDetailSkeleton from "./components/RestaurantSkeleton";
+
 import { Review } from "@/app/lib/definitions";
 import CreateComment from "./components/CreateComment";
 
@@ -12,7 +12,7 @@ export default async function Page({ params }) {
 
   return (
     <main id="restaurant-detail" className="flex flex-col items-center">
-      <Suspense fallback={<RestaurantDetailSkeleton />}>
+      <Suspense>
         <Hero {...restaurant} />
         <div className="flex flex-col gap-4 w-full items-center justify-center max-w-[944px]">
           {restaurant.reviews?.map((review: Review) => (
