@@ -9,7 +9,7 @@ export default function Hero({ image, address, name, _id }: RestaurantDetail) {
       <FloatingActions />
       <div className="relative w-full h-[33vh] sm:h-[66vh] lg:h-[80vh] rounded-3xl overflow-hidden">
         <Image src={image} alt={name} fill />
-        <hgroup className="absolute m-auto w-full h-full flex flex-col justify-center items-center gap-4 text-white text-center">
+        <hgroup className="absolute m-auto w-full h-full flex flex-col justify-center items-center gap-4 text-white text-center drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.7)]">
           <h1 className="drop-shadow-lg text-4xl sm:text-5xl md:text-6xl">
             {name}
           </h1>
