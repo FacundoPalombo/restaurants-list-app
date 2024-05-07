@@ -9,7 +9,9 @@ export default class Signup {
   emailField: Locator;
   userField: Locator;
   passwordField: Locator;
+  backLoginButton: Locator;
   backSpaceButton: Locator;
+  loginLabel: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -24,13 +26,14 @@ export default class Signup {
     this.emailField = page.getByRole("textbox", { name: "Email:" });
     this.userField = page.getByRole("textbox", { name: "Nombre de usuario:" });
     this.passwordField = page.getByRole("textbox", { name: "Contraseña:" });
-    this.backSpaceButton = page.getByRole("button", {
+    // Button redirects asserts
+    this.backLoginButton = page.getByRole("button", {
       name: "Volver al inicio de sesión",
     });
     this.backSpaceButton = page.getByRole("button", {
       name: "Volver a editar email o nombre de usuario",
     });
-    // Button redirects asserts
+    this.loginLabel = page.getByText("¿No tienes cuenta? Regístrate");
   }
 
   async goto() {
@@ -59,5 +62,13 @@ export default class Signup {
     // then create a account...
     // await this.cta.click()
     // await expect(this.welcomeLogin).toBeVisible()
+  }
+
+  async doReturnLogin() {
+    await expect(this.emailField).toBeVisible();
+    await expect(this.backSpaceButton).not.toBeInViewport();
+    await expect(this.backLoginButton).toBeInViewport();
+    await this.backLoginButton.click();
+    await expect(this.loginLabel).toBeVisible();
   }
 }
