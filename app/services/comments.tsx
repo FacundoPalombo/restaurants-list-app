@@ -53,7 +53,7 @@ export async function createComment({
     const payload = await response.text();
 
     if (response?.ok) {
-      revalidatePath(`/restaurants/${restaurantId}`);
+      revalidatePath(`/restaurants/[id]`);
       return { message: payload };
     }
     if (!response?.ok) {
@@ -119,7 +119,7 @@ export async function updateComment({
 
     const payload = await response.text();
     if (response?.ok) {
-      revalidatePath(`/restaurants/${restaurantId}`);
+      revalidatePath(`/restaurants/[id]`);
       return { message: payload };
     }
     if (!response?.ok) {
@@ -169,7 +169,7 @@ export async function deleteComment({
 
     const payload = await response.text();
     if (response?.ok) {
-      revalidatePath(`/restaurants/${restaurantId}`);
+      revalidatePath(`/restaurants/[id]`);
       return { ok: true, message: payload };
     }
     if (!response?.ok) {

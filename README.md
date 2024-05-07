@@ -52,3 +52,8 @@ bun test:e2e
 
 
 This will left you a coverage report that you can see after e2e tests finished, or you can see by yourself the last result on test-results/index.html
+
+## Notes
+
+You can view my dev notes on notion for this project here.
+https://purring-freon-873.notion.site/Prueba-tecnica-TailorHub-2a770ce993eb4e38a46dbbb441620b1b?pvs=4
