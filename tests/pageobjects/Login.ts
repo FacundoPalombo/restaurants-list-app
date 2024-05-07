@@ -90,9 +90,8 @@ export default class Signup {
 
     // Asserts user menu functionality onClick
     await expect(this.userMenu).toBeTruthy();
-    await expect(this.userMenu).not.toBeVisible();
+    await expect(this.logoutButton).not.toBeVisible();
     await this.userMenu.click();
-    await expect(this.userMenu).toBeVisible();
 
     // Assert
     await expect(this.logoutButton).toBeVisible();

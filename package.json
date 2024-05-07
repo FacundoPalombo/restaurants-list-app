@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test:e2e:dev": "npx playwright test --ui",
     "test:e2e": "npx playwright test",
     "test": "npm run test:e2e"
   },
