@@ -39,7 +39,7 @@ export default function Map({ restaurants, setRestaurant }: MapProps) {
               zoom={16}
               scrollWheelZoom={true}
             >
-              <ChangeView center={currentPosition} zoom={17} />
+              <ChangeView center={currentPosition} zoom={16} />
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -70,9 +70,8 @@ function ChangeView({
   zoom: number;
 }) {
   const map = useMap();
-  // makes a navigation bounce but fixes the problem of "threshold center"
-  map.setView(center, 18);
-  map.setView(center, zoom);
+
+  map.setView(center, 16);
   return null;
 }
 
