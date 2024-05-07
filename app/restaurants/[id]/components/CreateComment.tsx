@@ -1,6 +1,7 @@
 "use client";
 import { create } from "@/app/actions/comments";
 import Button from "@/app/components/Button";
+import { TextArea } from "@/app/components/TextArea";
 import Cross from "@/app/components/svg/Cross";
 import Spinner from "@/app/components/svg/Spinner";
 import Star from "@/app/components/svg/Star";
@@ -20,7 +21,7 @@ export default function CreateComment() {
       className="flex flex-col gap-4 w-full h-max my-4 max-w-[944px]"
     >
       <div className="relative w-full h-full px-4">
-        <TextArea />
+        <TextArea name="comment" maxLength={255} />
       </div>
       <div className="flex flex-row justify-between items-center mx-4">
         <Rating />
@@ -74,37 +75,5 @@ function Submit() {
     >
       {pending && <Spinner />}
     </Button>
-  );
-}
-
-function TextArea() {
-  const [newComment, setNewComment] = useState("");
-
-  useEffect(() => {}, [newComment]);
-
-  const handleClear = useCallback(() => {
-    setNewComment("");
-  }, [newComment]);
-
-  return (
-    <>
-      <input type="text" hidden value={newComment} name="comment" />
-      <button
-        type="button"
-        onClick={handleClear}
-        aria-label="Limpiar area de texto"
-        hidden={newComment?.length === 0}
-        className="absolute w-2 h-2 top-3 right-9 hover:drop-shadow-xl active:drop-shadow-md active:stroke-w-2"
-      >
-        <Cross />
-      </button>
-      <textarea
-        className={clsx(
-          "h-full w-full rounded-3xl p-2 border-2  border-black shadow-lg"
-        )}
-        value={newComment}
-        onChange={(e) => setNewComment(e.target.value)}
-      ></textarea>
-    </>
   );
 }

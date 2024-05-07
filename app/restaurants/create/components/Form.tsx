@@ -3,37 +3,65 @@
 import { createRestaurant } from "@/app/actions/restaurant";
 import Button from "@/app/components/Button";
 import Input from "@/app/components/Input";
+import { TextArea } from "@/app/components/TextArea";
+import Spinner from "@/app/components/svg/Spinner";
 import clsx from "clsx";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  ChangeEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useFormState, useFormStatus } from "react-dom";
+import { Toaster, toast } from "sonner";
 
 export default function Form() {
-  const [description, setDescription] = useState("");
-  const [file, setFile] = useState(null);
-  const fileRef = useRef(null);
-
-  const [state, action] = useFormState(createRestaurant, { message: "" });
-
-  const { pending, data } = useFormStatus();
-
-  const onInputFile = useCallback(
-    (event) => {
-      console.log(event.target.files);
-      setFile(event.target.files[0]);
-    },
-    [fileRef]
-  );
+  const [state, action] = useFormState(createRestaurant, undefined);
 
   useEffect(() => {
-    console.log(description);
-  }, [description]);
+    if ((state as any)?.error) {
+      toast.error("Ups, hubo un error inesperado!");
+    }
+    if ((state as any)?.errors)
+      toast.error(
+        "Hubo un error cargando el restaurante, verifica la información proporcionada."
+      );
+  }, [state]);
 
   return (
     <form
       action={action}
       className="relative flex flex-col-reverse px-6 gap-6 items-center sm:flex-row"
     >
+      <InputFile />
+      <InputsText />
+      <Toaster richColors />
+    </form>
+  );
+}
+
+function InputFile() {
+  const [file, setFile] = useState<File>();
+  const [filePreview, setFilePreview] = useState("");
+
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const onInputFile: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      const target: HTMLInputElement = event.target;
+      if (target && target?.files?.length) {
+        setFile(target?.files[0]);
+        const fileUrl = URL.createObjectURL(target?.files[0]);
+        setFilePreview(fileUrl);
+      }
+    },
+    [fileRef]
+  );
+
+  return (
+    <>
       <button
         className="my-4 drop-shadow-lg"
         type="button"
@@ -46,7 +74,7 @@ export default function Form() {
             width: "300px",
             height: "300px",
             backgroundColor: "lightgrey",
-            backgroundImage: `url(${file})`,
+            backgroundImage: `url(${filePreview})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }}
@@ -62,66 +90,68 @@ export default function Form() {
         onChange={onInputFile}
         ref={fileRef}
       />
-      <div className="flex flex-col gap-4 px-4 w-full ">
-        <Input
-          autocomplete={false}
-          loading={pending}
-          hierarchy="loud"
-          label="Nombre *"
-          placeholder="Escribe el nombre"
-          type="text"
-          name="name"
-        />
-        <Input
-          autocomplete={false}
-          loading={pending}
-          hierarchy="loud"
-          label="Dirección *"
-          placeholder="Escribe la dirección"
-          type="text"
-          name="address"
-        />
-        <Input
-          autocomplete={false}
-          loading={pending}
-          hierarchy="loud"
-          label="Latitud *"
-          placeholder="Escribe la latitud"
-          type="text"
-          name="latlng[lat]"
-        />
-        <Input
-          autocomplete={false}
-          loading={pending}
-          hierarchy="loud"
-          label="Longitud *"
-          placeholder="Escribe la longitud"
-          type="text"
-          name="latlng[lng]"
-        />
-        <label
-          htmlFor="description"
-          className={clsx("text-lg md:text-xl text-black")}
-        >
-          Descripción
-        </label>
-        <input type="text" name="description" hidden value={description} />
-        <textarea
-          className={clsx(
-            "h-full w-full rounded-3xl p-2 border-2  border-black shadow-lg",
-            pending && "animation-pulse"
-          )}
-          onChange={(e) => setDescription(e.target.value.trim())}
-        ></textarea>
+    </>
+  );
+}
 
-        <Button
-          type="submit"
-          hierarchy="loud"
-          size="xl"
-          rounded="full"
-          label="Guardar"
-        />
-      </div>
-    </form>
+function InputsText() {
+  const { pending } = useFormStatus();
+  return (
+    <div className="flex flex-col gap-4 px-4 w-full ">
+      <Input
+        autocomplete={false}
+        loading={pending}
+        hierarchy="loud"
+        label="Nombre *"
+        placeholder="Escribe el nombre"
+        type="text"
+        name="name"
+      />
+      <Input
+        autocomplete={false}
+        loading={pending}
+        hierarchy="loud"
+        label="Dirección *"
+        placeholder="Escribe la dirección"
+        type="text"
+        name="address"
+      />
+      <Input
+        autocomplete={false}
+        loading={pending}
+        hierarchy="loud"
+        label="Latitud *"
+        placeholder="Escribe la latitud"
+        type="text"
+        name="latlng[lat]"
+      />
+      <Input
+        autocomplete={false}
+        loading={pending}
+        hierarchy="loud"
+        label="Longitud *"
+        placeholder="Escribe la longitud"
+        type="text"
+        name="latlng[lng]"
+      />
+      <label
+        htmlFor="description"
+        className={clsx("text-lg md:text-xl text-black")}
+      >
+        Descripción
+      </label>
+      <TextArea name="description" className={clsx("h-full w-full ")} />
+
+      <Button
+        type="submit"
+        hierarchy="loud"
+        size="xl"
+        disabled={pending}
+        rounded="full"
+        label="Guardar"
+      >
+        {pending && <Spinner />}
+      </Button>
+    </div>
   );
 }

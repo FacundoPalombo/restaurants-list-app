@@ -1,5 +1,5 @@
 import { latLng } from "leaflet";
-import { z } from "zod";
+import { string, z } from "zod";
 
 export const SignupSchema = z.object({
   username: z
@@ -152,6 +152,20 @@ const ACCEPTED_IMAGE_MIME_TYPES = [
   "image/jpg",
   "image/jpeg",
 ];
+
+export type CreateRestaurantFormState =
+  | {
+      errors?: {
+        image?: string[];
+        name?: string[];
+        address?: string[];
+        "latlng[lat]"?: string[];
+        "latlng[lng]"?: string[];
+        description?: string[];
+      };
+      error?: string;
+    }
+  | undefined;
 
 export const CreateRestaurantRequestSchema = z.object({
   image: z

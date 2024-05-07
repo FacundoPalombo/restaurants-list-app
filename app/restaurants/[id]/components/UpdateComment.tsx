@@ -4,18 +4,13 @@ import { update } from "@/app/actions/comments";
 import Button from "@/app/components/Button";
 import clsx from "clsx";
 import { useParams } from "next/navigation";
-import {
-  MouseEventHandler,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useState } from "react";
 import DeleteComment from "./DeleteComment";
 
 import Star from "@/app/components/svg/Star";
 import { useFormStatus } from "react-dom";
 import Spinner from "@/app/components/svg/Spinner";
+import { TextArea } from "@/app/components/TextArea";
 
 function Heading({
   owner,
@@ -28,7 +23,6 @@ function Heading({
   setRating: Function;
   isEditing: boolean;
 }) {
-  useEffect(() => {}, [isEditing]);
   return (
     <div className="flex flex-row justify-between gap-2 items-center relative box-border h-min  whitespace-nowrap w-full">
       <h2 className="relative break-word overflow-hidden text-ellipsis border-collapse  box-content  text-3xl font-semibold w-min">
@@ -77,16 +71,13 @@ export default function UpdateComment({
   rating: number;
   owner: { name: string };
 }) {
-  const updateSubmitRef = useRef<any>();
-
   const [isEditing, setIsEditing] = useState(false);
   const [newComment, setNewComment] = useState(comment);
   const [newRating, setNewRating] = useState(rating);
 
   const { id: restaurantId }: { id: string } = useParams();
-  const { pending } = useFormStatus();
 
-  useEffect(() => {}, [newRating]);
+  useEffect(() => {}, [newRating, newComment]);
 
   const updateCommentWithIds = update.bind(null, _id, restaurantId as string);
 
@@ -104,19 +95,13 @@ export default function UpdateComment({
         setRating={setNewRating}
         isEditing={isEditing}
       />
-      <form id="update-comment" hidden action={updateCommentWithIds}>
-        <input type="text" hidden name="comment" value={newComment} />
-        <input type="number" hidden name="rating" value={newRating} />
-      </form>
       <p className={clsx(isEditing && "hidden")}>{comment}</p>
-      <textarea
-        className={clsx(
-          !isEditing && "hidden",
-          "h-full w-full rounded-3xl p-2 border-2  border-black shadow-lg"
-        )}
+      <TextArea
+        maxLength={255}
+        hidden={!isEditing}
         value={newComment}
-        onChange={(e) => setNewComment(e.target.value)}
-      ></textarea>
+        onChange={(e) => setNewComment((e.target as HTMLTextAreaElement).value)}
+      />
       <div className="flex flex-row gap-2 justify-end items-center py-2 md:py-4">
         <form
           className="flex flex-row gap-2 justify-end py-2 md:py-4"
@@ -142,13 +127,7 @@ export default function UpdateComment({
 
           <input type="text" hidden name="comment" value={newComment} />
           <input type="number" hidden name="rating" value={newRating} />
-          <Submit
-            isEditing={isEditing}
-            onSubmit={() => {
-              updateSubmitRef.current.click();
-              setIsEditing(false);
-            }}
-          />
+          <Submit isEditing={isEditing} />
         </form>
         <DeleteComment restaurantId={restaurantId} commentId={_id} />
       </div>
@@ -156,23 +135,17 @@ export default function UpdateComment({
   );
 }
 
-function Submit({
-  onSubmit,
-  isEditing,
-}: {
-  onSubmit: MouseEventHandler;
-  isEditing: boolean;
-}) {
+function Submit({ isEditing }: { isEditing: boolean }) {
   const { pending } = useFormStatus();
   return (
     <Button
       className={clsx(!isEditing && "hidden")}
       tipology="cartoon"
       hierarchy="confirm"
+      htmlFor="update-comment"
       type="submit"
       label={"Confirmar"}
       loading={pending}
-      onClick={onSubmit}
     >
       {pending && <Spinner />}
     </Button>

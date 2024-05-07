@@ -46,12 +46,10 @@ export default function Input({
         className={clsx(
           "text-lg md:text-xl",
           quiet && "text-white",
-          loud && "text-black",
-          loading && "animation-pulse"
+          loud && "text-black"
         )}
       >
         {label}
-        {loading && "cargandow..."}
       </label>
       <input
         autoComplete={autoComplete}

@@ -1,5 +1,6 @@
 import { deleteComment } from "@/app/actions/comments";
 import Button from "@/app/components/Button";
+import Spinner from "@/app/components/svg/Spinner";
 import { useFormStatus } from "react-dom";
 
 export default function DeleteComment({
@@ -14,16 +15,24 @@ export default function DeleteComment({
     restaurantId as string,
     commentId
   );
-  const { pending } = useFormStatus();
   return (
     <form action={deleteCommentWithIds}>
-      <Button
-        tipology="cartoon"
-        hierarchy="danger"
-        loading={pending}
-        label="Eliminar"
-        type="submit"
-      />
+      <Submit />
     </form>
+  );
+}
+
+function Submit() {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      tipology="cartoon"
+      hierarchy="danger"
+      loading={pending}
+      label="Eliminar"
+      type="submit"
+    >
+      {pending && <Spinner />}
+    </Button>
   );
 }

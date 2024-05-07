@@ -34,6 +34,7 @@ export async function create(restaurantId: string, formData: FormData) {
     return { error };
   }
 }
+
 // #region update
 export async function update(
   commentId: string,
@@ -66,7 +67,6 @@ export async function update(
 // #region delete
 
 export async function deleteComment(restaurantId: string, commentId: string) {
-  // Validate form fields
   try {
     const response = await DeleteComment({ restaurantId, commentId });
     if (response) return { data: "Deleted" };
