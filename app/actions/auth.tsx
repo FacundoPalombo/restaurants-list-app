@@ -81,7 +81,6 @@ export async function logout(state: LogoutFormState, formData: FormData) {
 
     if (response?.ok) {
       revalidatePath("/restaurants");
-      return NextResponse.redirect("/login");
     }
     if (!response?.ok) {
       return { error: "Error al cerrar la sesión", payload: response };

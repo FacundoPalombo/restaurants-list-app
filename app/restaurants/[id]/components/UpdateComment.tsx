@@ -85,7 +85,7 @@ export default function UpdateComment({
     setNewComment(comment);
     setNewRating(rating);
     setIsEditing(false);
-  }, [newComment]);
+  }, [newComment, comment, rating]);
 
   return (
     <section>

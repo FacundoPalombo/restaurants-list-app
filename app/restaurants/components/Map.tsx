@@ -46,7 +46,11 @@ export default function Map({ restaurants, setRestaurant }: MapProps) {
               />
 
               {restaurants.map((props) => (
-                <RestaurantMarker {...props} setRestaurant={setRestaurant} />
+                <RestaurantMarker
+                  {...props}
+                  setRestaurant={setRestaurant}
+                  key={props._id}
+                />
               ))}
             </MapContainer>
           </div>
