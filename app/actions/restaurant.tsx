@@ -103,11 +103,7 @@ export async function deleteRestaurant(restaurantId: string) {
   console.log(restaurantId);
   try {
     const response = await deleteRestaurantService({ restaurantId });
-    if (response) return { data: "Deleted" };
-    if (!response) {
-      const error = await response?.json();
-      return { error };
-    }
+    if (response) return { message: "Deleted" };
   } catch (error) {
     return { error };
   }
