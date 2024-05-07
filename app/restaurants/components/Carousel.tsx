@@ -133,7 +133,7 @@ export default function Carousel({
                   delete slidesRef.current[props._id];
                 }
               }}
-              className="relative rounded-3xl flex flex-col h-fit text-left focus:shadow-lg  active:shadow-stone-700 focus:shadow-stone-700 transition-shadow"
+              className="relative rounded-3xl flex flex-col h-fit text-left focus:shadow-lg  active:shadow-stone-700 focus:shadow-tailor-blue focus:drop-shadow-lg transition-shadow"
             >
               <RestaurantComponent {...props} />
             </button>

@@ -7,6 +7,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
 import { RestaurantContext } from "./RestaurantContainer";
 import Button from "@/app/components/Button";
+import { MapSkeleton } from "./Skeleton";
 
 type MapProps = {
   restaurants: Restaurant[];
@@ -30,16 +31,16 @@ export default function Map({ restaurants, setRestaurant }: MapProps) {
   // Height should be calculated with absolute values for map rendering. see  https://react-leaflet.js.org/docs/v3/start-setup/
   return (
     isReady && (
-      <Suspense fallback={<p>Loading maps...</p>}>
+      <Suspense fallback={<MapSkeleton />}>
         <section className="relative overflow-hidden w-full h-full rounded-2xl">
           <div className="relative rounded-2xl overflow-hidden w-[100vw]">
             <MapContainer
               style={{ height: global?.window?.innerHeight - 132 }}
               center={INITIAL_POSITION}
-              zoom={16}
+              zoom={17}
               scrollWheelZoom={true}
             >
-              <ChangeView center={currentPosition} zoom={16} />
+              <ChangeView center={currentPosition} zoom={17} />
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -61,7 +62,7 @@ export default function Map({ restaurants, setRestaurant }: MapProps) {
 }
 
 // #region ChangeView
-// Component MapView for changing the position and zoom dynamically
+
 function ChangeView({
   center,
   zoom,
@@ -71,7 +72,7 @@ function ChangeView({
 }) {
   const map = useMap();
 
-  map.setView(center, 16);
+  map.setView(center, 17);
   return null;
 }
 
