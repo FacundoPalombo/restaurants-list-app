@@ -1,4 +1,5 @@
 import { latLng } from "leaflet";
+import { NextResponse } from "next/server";
 import { string, z } from "zod";
 
 export const SignupSchema = z.object({
@@ -163,6 +164,7 @@ export type CreateRestaurantFormState =
         description?: string[];
       };
       error?: string;
+      message?: string;
     }
   | undefined;
 

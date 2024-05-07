@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import { Review } from "@/app/lib/definitions";
 import CreateComment from "./components/CreateComment";
 
-export default async function Page({ params }) {
+export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
   const restaurant = await getRestaurantDetail({ id });
 

@@ -5,7 +5,7 @@ import ContentLoader from "react-content-loader";
 
 // Si viniste a esta pagina y todavía estan rotos los skeletons, estoy probando esta librería y se rompen todo, suelo hacer los skeletons normalmente con html mas que con svg.
 
-export default function Skeleton(props) {
+export default function Skeleton(props: any) {
   const width = global?.window?.innerWidth;
   const height = global?.window?.innerHeight;
 
@@ -25,7 +25,7 @@ export default function Skeleton(props) {
   );
 }
 
-export function CarouselSkeleton(props) {
+export function CarouselSkeleton() {
   const cardWidth = 256;
   const cardHeight = 358;
 
@@ -50,7 +50,7 @@ export function CarouselSkeleton(props) {
   );
 }
 
-export function MapSkeleton(props) {
+export function MapSkeleton() {
   const width = global?.window?.innerWidth;
   const height = global?.window?.innerHeight;
 

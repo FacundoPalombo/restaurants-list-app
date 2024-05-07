@@ -46,7 +46,7 @@ export async function createRestaurant(
 
     if (response?.message === "Created") {
       revalidatePath("/restaurants");
-      return NextResponse.redirect(
+      NextResponse.redirect(
         new URL("/restaurants/create/success", response.nextUrl)
       );
     }

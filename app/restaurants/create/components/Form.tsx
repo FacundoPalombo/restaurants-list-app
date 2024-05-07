@@ -6,6 +6,7 @@ import Input from "@/app/components/Input";
 import { TextArea } from "@/app/components/TextArea";
 import Spinner from "@/app/components/svg/Spinner";
 import clsx from "clsx";
+import { NextResponse } from "next/server";
 
 import {
   ChangeEventHandler,
@@ -21,10 +22,10 @@ export default function Form() {
   const [state, action] = useFormState(createRestaurant, undefined);
 
   useEffect(() => {
-    if ((state as any)?.error) {
+    if (state?.error) {
       toast.error("Ups, hubo un error inesperado!");
     }
-    if ((state as any)?.errors)
+    if (state?.errors)
       toast.error(
         "Hubo un error cargando el restaurante, verifica la información proporcionada."
       );

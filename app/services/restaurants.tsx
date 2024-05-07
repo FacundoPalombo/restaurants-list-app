@@ -74,7 +74,7 @@ export async function getRestaurantDetail({ id }: RestaurantsDetailRequest) {
 
 export async function createRestaurant({ formData }: { formData: FormData }) {
   const session = cookies().get("session")?.value as string;
-  if (!session) throw Error("Unauthorized");
+  if (!session) return { error: "Unauthorized " };
 
   // Prepare request headers
   const headers = new Headers();
@@ -98,9 +98,9 @@ export async function createRestaurant({ formData }: { formData: FormData }) {
     if (response?.ok)
       return { message: "Created", nextUrl: request.nextUrl.pathname };
     if (!response?.ok) {
-      console.log(response);
       const error = await response.json();
-      return { error: error?.message };
+      console.log(error);
+      return { error };
     }
   } catch (error) {
     console.error(error);

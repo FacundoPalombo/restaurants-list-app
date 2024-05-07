@@ -2,12 +2,12 @@
 import { create } from "@/app/actions/comments";
 import Button from "@/app/components/Button";
 import { TextArea } from "@/app/components/TextArea";
-import Cross from "@/app/components/svg/Cross";
+
 import Spinner from "@/app/components/svg/Spinner";
 import Star from "@/app/components/svg/Star";
 import clsx from "clsx";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormStatus } from "react-dom";
 
 export default function CreateComment() {
