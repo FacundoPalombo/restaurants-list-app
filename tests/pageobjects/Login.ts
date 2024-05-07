@@ -4,7 +4,6 @@ export default class Signup {
   page: Page;
   footer: Locator;
   cta: Locator;
-  ctaNext: Locator;
   emailField: Locator;
   passwordField: Locator;
   backSpaceSignupButton: Locator;
@@ -19,20 +18,17 @@ export default class Signup {
     this.footer = page.locator("footer", {
       hasText: "Prueba técnica ©Tailor hub SL 2019 - 2024",
     });
-    this.ctaNext = page.getByRole("button", { name: "Siguiente " });
-    this.cta = page.getByRole("button", { name: "Finalizar " });
+    this.cta = page.getByRole("button", { name: "Entrar" });
 
     this.emailField = page.getByRole("textbox", { name: "Email:" });
-    this.passwordField = page.getByRole("textbox", {
-      name: "Contraseña: Escribe tu password",
-    });
+    this.passwordField = page.locator("#password");
 
     this.backSpaceSignupButton = page.getByRole("button", {
       name: "Volver al inicio de sesión",
     });
 
     this.backSignupButton = page.getByRole("link", {
-      name: "Registrate",
+      name: "Regístrate",
     });
 
     this.userMenu = page.getByRole("button", {
@@ -55,20 +51,21 @@ export default class Signup {
 
   async doLogin() {
     await expect(this.emailField).toBeVisible();
+
     // change this values from a csv to make infinite accounts.
     await this.emailField.fill("robot@micuentarobot.com");
-    await this.passwordField.fill("R0b0c00p1!");
-    // then create a account...
-    await this.cta.click();
+    await this.emailField.press("Tab");
+    await this.passwordField.focus();
+    await this.passwordField.pressSequentially("R0b0c00p1!");
+    await this.passwordField.press("Enter");
+
+    // Then login into the account
     await expect(this.userMenu).toBeVisible();
   }
 
   async goBackToSignup() {
     await expect(this.emailField).toBeVisible();
-    await this.backSignupButton.click();
-    await expect(this.backSpaceSignupButton).toBeVisible();
-    await this.backSpaceSignupButton.click();
-    await expect(this.backSignupButton).toBeVisible();
+    await expect(this.backSignupButton).toHaveAttribute("href", "/signup");
   }
 
   async doLogout() {
