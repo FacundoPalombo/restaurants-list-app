@@ -87,7 +87,7 @@ function Logout() {
       id="logout"
       type="submit"
       hierarchy="loud"
-      htmlFor="logout"
+      form="logout"
       loading={pending}
       size="lg"
       rounded="2xl"

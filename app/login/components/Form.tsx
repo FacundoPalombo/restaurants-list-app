@@ -31,7 +31,7 @@ function Submit() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" hierarchy="loud" label="Entrar" htmlFor="login">
+    <Button type="submit" hierarchy="loud" label="Entrar" form="login">
       {pending && <Spinner />}
     </Button>
   );

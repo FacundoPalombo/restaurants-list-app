@@ -123,7 +123,7 @@ function Submit({ step, setStep }: { step: number; setStep: Function }) {
           rounded="2xl"
           label="Finalizar"
           type="submit"
-          htmlFor="signup"
+          form="signup"
           tabIndex={6}
           disabled={pending}
         >

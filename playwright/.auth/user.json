@@ -1,4 +1,25 @@
 {
-  "cookies": [],
+  "cookies": [
+    {
+      "name": "session",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjNhOWFjY2FlYTYyYmQxY2FjODYwYjEiLCJlbWFpbCI6InJvYm90QHJvYm90LmNvbSIsImlhdCI6MTcxNTExNzA5NywiZXhwIjoxNzE1MTIwNjk3fQ.OvNdA_F450COKR2F1ykCrNquLZf01Cah-k5yQbmLSN8",
+      "domain": "127.0.0.1",
+      "path": "/",
+      "expires": 1715721898.137115,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "refreshToken",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjNhOWFjY2FlYTYyYmQxY2FjODYwYjEiLCJlbWFpbCI6InJvYm90QHJvYm90LmNvbSIsImlhdCI6MTcxNTExNzA5NywiZXhwIjoxNzE1NzIxODk3fQ.ddYxXB5tF9uG1ZLXa0ERfHjmmjHRfQzsRoS2KHBrnbo",
+      "domain": "127.0.0.1",
+      "path": "/",
+      "expires": 1715721898.137526,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
   "origins": []
 }

@@ -24,8 +24,8 @@ export default class Signup {
       this.account = account;
     } else {
       this.account = {
-        email: "robot@micuentarobot.com",
-        password: "R0b0c00p!",
+        email: "robot@robot.com",
+        password: "R0b0c0p.",
       };
     }
 
@@ -35,8 +35,10 @@ export default class Signup {
     });
     this.cta = page.getByRole("button", { name: "Entrar" });
 
-    this.emailField = page.getByRole("textbox", { name: "Email:" });
-    this.passwordField = page.locator("#password");
+    this.emailField = page.getByRole("textbox", { name: "Escribe tu email" });
+    this.passwordField = page.getByRole("textbox", {
+      name: "Escribe tu password",
+    });
 
     this.backSpaceSignupButton = page.getByRole("button", {
       name: "Volver al inicio de sesión",
@@ -64,12 +66,12 @@ export default class Signup {
   }
 
   async doLogin() {
-    await expect(this.emailField).toBeVisible();
+    await expect(this.emailField).toBeInViewport();
 
     await this.emailField.fill(this.account.email);
     await this.emailField.press("Tab");
     await this.passwordField.focus();
-    await this.passwordField.pressSequentially(this.account?.password);
+    await this.passwordField.pressSequentially(this.account.password);
     await this.passwordField.press("Enter");
 
     await this.page.waitForURL(TEST_BASE_URL + "/restaurants");

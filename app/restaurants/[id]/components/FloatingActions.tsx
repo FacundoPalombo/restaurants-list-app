@@ -115,7 +115,7 @@ function Submit() {
       label="Eliminar"
       rounded="xl"
       type="submit"
-      htmlFor="delete-restaurant"
+      form="delete-restaurant"
       hierarchy="danger"
       tipology="cartoon"
     >

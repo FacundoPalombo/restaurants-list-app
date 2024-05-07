@@ -24,7 +24,7 @@ type ButtonProps = {
   ariaLabel?: string;
   tabIndex?: number;
   className?: string;
-  htmlFor?: string;
+  form?: string;
   disabled?: boolean;
   loading?: boolean;
   iconOnly?: boolean;
@@ -44,7 +44,7 @@ export default function Button({
   ariaLabel,
   tabIndex,
   className,
-  htmlFor,
+  form,
   disabled,
   loading,
   iconOnly,
@@ -79,7 +79,7 @@ export default function Button({
   };
 
   const buttonProps: Partial<ButtonProps> = {
-    htmlFor,
+    form,
   };
 
   const buttonBaseStyles = clsx(

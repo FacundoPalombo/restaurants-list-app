@@ -1,3 +1,17 @@
+# Restaurants App
+
+## Coding Challenge
+
+Esta es aplicación de coding challenge
+
+Puedes ver la aplicación aqui: https://restaurants-list-app-dusky.vercel.app/
+
+### Stack tecnológico:
+  - Next.js 14 (App Routes) 
+  - React 18^ (Server Components)
+  - Typescript
+  - Playwright
+
 ## Getting Started
 
 First, run the development server:
@@ -50,8 +64,12 @@ pnpm test:e2e
 bun test:e2e
 ```
 
-
 This will left you a coverage report that you can see after e2e tests finished, or you can see by yourself the last result on test-results/index.html
+
+### Test users
+
+If the test users dont login correctly, just change the contents on the file [playwright/.auth/accounts.json](https://github.com/FacundoPalombo/restaurants-list-app/blob/main/playwright/.auth/accounts.json)
+
 
 ## Notes
 

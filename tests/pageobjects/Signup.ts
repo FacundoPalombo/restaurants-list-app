@@ -1,8 +1,14 @@
 import { Locator, Page, expect } from "@playwright/test";
 
+type Account = {
+  name: string;
+  email: string;
+  password: string;
+};
 export default class Signup {
   page: Page;
   footer: Locator;
+  account: Account;
 
   cta: Locator;
   ctaNext: Locator;
@@ -13,8 +19,18 @@ export default class Signup {
   backSpaceButton: Locator;
   loginLabel: Locator;
 
-  constructor(page: Page) {
+  constructor(page: Page, account: Account) {
     this.page = page;
+
+    if (account) {
+      this.account = account;
+    } else {
+      this.account = {
+        name: "MrRobotitus",
+        email: "robot@cuenta-robot.com",
+        password: "R0b0c0p.",
+      };
+    }
 
     // bootstrap page asserts
     this.footer = page.locator("footer", {
@@ -23,9 +39,13 @@ export default class Signup {
     this.ctaNext = page.getByRole("button", { name: "Siguiente " });
     this.cta = page.getByRole("button", { name: "Finalizar " });
 
-    this.emailField = page.getByRole("textbox", { name: "Email:" });
-    this.userField = page.getByRole("textbox", { name: "Nombre de usuario:" });
-    this.passwordField = page.getByRole("textbox", { name: "Contraseña:" });
+    this.emailField = page.getByRole("textbox", { name: "Añade tu email" });
+    this.userField = page.getByRole("textbox", {
+      name: "Añade tu nombre de usuario",
+    });
+    this.passwordField = page.getByRole("textbox", {
+      name: "Crea tu contraseña",
+    });
     // Button redirects asserts
     this.backLoginButton = page.getByRole("button", {
       name: "Volver al inicio de sesión",
@@ -48,11 +68,11 @@ export default class Signup {
   async doSignup() {
     await expect(this.emailField).toBeVisible();
     // change this values from a csv to make infinite accounts.
-    await this.emailField.fill("robot@cuenta-robot.com");
-    await this.userField.fill("MrRobotitus");
+    await this.emailField.fill(this.account.email);
+    await this.userField.fill(this.account.name);
     await this.ctaNext.click();
     await expect(this.passwordField).toBeVisible();
-    await this.passwordField.fill("R0b0c00p!");
+    await this.passwordField.fill(this.account.password);
     // test if backwards works well
     await this.backSpaceButton.click();
     await expect(this.emailField).toBeVisible();

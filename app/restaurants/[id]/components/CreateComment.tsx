@@ -66,7 +66,7 @@ function Submit() {
   return (
     <Button
       tipology="cartoon"
-      htmlFor="comment"
+      form="comment"
       hierarchy="confirm"
       disabled={pending}
       loading={pending}

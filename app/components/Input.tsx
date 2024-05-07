@@ -12,6 +12,7 @@ type InputProps = {
   hierarchy?: "quiet" | "loud";
   modifier?: "success" | "warning" | undefined | false | null;
   loading?: boolean;
+  form?: string;
 };
 
 export default function Input({
@@ -26,6 +27,7 @@ export default function Input({
   error,
   autocomplete,
   hierarchy = "quiet",
+  form,
 }: InputProps) {
   const loud = hierarchy === "loud";
   const quiet = hierarchy === "quiet";
@@ -42,7 +44,7 @@ export default function Input({
   return (
     <div className="flex flex-col w-full sm:w-2/3">
       <label
-        htmlFor="email"
+        form={name}
         className={clsx(
           "text-lg md:text-xl",
           quiet && "text-white",
@@ -69,6 +71,7 @@ export default function Input({
         )}
         type={type}
         id={name}
+        form={form}
         name={name}
         tabIndex={tabIndex}
         autoFocus={autoFocus}

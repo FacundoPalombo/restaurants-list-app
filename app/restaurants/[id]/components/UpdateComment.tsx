@@ -142,7 +142,7 @@ function Submit({ isEditing }: { isEditing: boolean }) {
       className={clsx(!isEditing && "hidden")}
       tipology="cartoon"
       hierarchy="confirm"
-      htmlFor="update-comment"
+      form="update-comment"
       type="submit"
       label={"Confirmar"}
       loading={pending}
