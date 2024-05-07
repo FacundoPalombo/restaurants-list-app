@@ -109,16 +109,16 @@ export async function createRestaurant({ formData }: { formData: FormData }) {
 }
 
 // #region update
-
 export async function updateRestaurant({
   restaurantId,
   formData,
 }: {
   restaurantId: string;
-  commentId: string;
   formData: FormData;
 }) {
+  console.log(formData, "service");
   const session = cookies()?.get("session")?.value;
+
   if (!session) {
     throw new Error("Should be logged in");
   }
@@ -139,11 +139,13 @@ export async function updateRestaurant({
     }
   );
 
+  console.log(request, "request tremendo");
+
   try {
     const response = await fetch(request);
-
-    const payload = await response.text();
+    console.log(response);
     if (response?.ok) {
+      const payload = await response.text();
       revalidatePath(`/restaurants/${restaurantId}`);
       return { message: payload };
     }
@@ -172,7 +174,6 @@ export async function deleteRestaurant({
 
   // Prepare request headers
   const headers = new Headers();
-  headers.append("Content-Type", "application/x-www-form-urlencoded");
   headers.append("Authorization", session.toString());
 
   const request = new Request(

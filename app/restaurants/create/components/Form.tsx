@@ -42,7 +42,7 @@ export default function Form() {
   );
 }
 
-function InputFile() {
+export function InputFile() {
   const [file, setFile] = useState<File>();
   const [filePreview, setFilePreview] = useState("");
 
@@ -59,6 +59,8 @@ function InputFile() {
     },
     [fileRef]
   );
+
+  useEffect(() => {}, [file]);
 
   return (
     <>
@@ -94,7 +96,7 @@ function InputFile() {
   );
 }
 
-function InputsText() {
+export function InputsText() {
   const { pending } = useFormStatus();
   return (
     <div className="flex flex-col gap-4 px-4 w-full ">

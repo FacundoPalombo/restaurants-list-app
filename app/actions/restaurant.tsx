@@ -7,6 +7,7 @@ import {
 import {
   createRestaurant as createRestaurantService,
   deleteRestaurant as deleteRestaurantService,
+  updateRestaurant as updateRestaurantService,
 } from "../services/restaurants";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
@@ -60,10 +61,10 @@ export async function createRestaurant(
 
 // #region update
 export async function updateRestaurant(
-  commentId: string,
   restaurantId: string,
   formData: FormData
 ) {
+  console.log(formData);
   // get formdata values for early data validation
   const image = formData.get("image");
   const address = formData.get("address");
@@ -98,15 +99,13 @@ export async function updateRestaurant(
   }
 }
 
-export async function deleteRestaurant(
-  restaurantId: string,
-  commentId: string
-) {
+export async function deleteRestaurant(restaurantId: string) {
+  console.log(restaurantId);
   try {
     const response = await deleteRestaurantService({ restaurantId });
     if (response) return { data: "Deleted" };
     if (!response) {
-      const error = await response.json();
+      const error = await response?.json();
       return { error };
     }
   } catch (error) {
