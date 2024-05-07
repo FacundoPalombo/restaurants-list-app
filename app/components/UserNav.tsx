@@ -26,9 +26,7 @@ export default function UserNav({ username }: UserNavProps) {
   useEffect(() => {
     console.log(state);
     if (state?.error) {
-      toast.error(state?.error, { closeButton: true });
-      if (state?.error?.payload?.message) {
-      }
+      toast.error(state?.error as string, { closeButton: true });
     }
   }, [state]);
 

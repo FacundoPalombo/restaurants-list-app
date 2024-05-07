@@ -1,5 +1,4 @@
 import { API_BASE_URL } from "@/app/utils/constants";
-import createHttpError from "http-errors";
 import { cookies } from "next/headers";
 
 //TODO: Al facundo del futuro implementar JWT con jose
@@ -146,10 +145,6 @@ export async function logout() {
   const session = cookies().get("session")?.value as string;
   const refreshToken = cookies().get("refreshToken")?.value as string;
 
-  const headers = new Headers();
-  headers.append("Authorization", session?.toString());
-  headers.append("Cookie", refreshToken?.toString());
-
   const request = new Request(new URL("/api/auth/logout", API_BASE_URL), {
     method: "GET",
     headers: {
@@ -161,11 +156,10 @@ export async function logout() {
   try {
     // Verify if the session is currently valid, otherwise should return error and handle it on middlewares
     const response = await fetch(request);
-    console.log(response);
 
     if (response.ok) {
-      const payload = await response.text();
-      return { ok: true, message: payload };
+      const message = await response.text();
+      return { message };
     }
     if (!response?.ok) {
       const error = await response.json();

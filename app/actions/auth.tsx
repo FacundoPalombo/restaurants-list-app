@@ -13,7 +13,6 @@ import {
   logout as logoutService,
 } from "../services/auth";
 import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
 
 export async function signup(state: SignupFormState, formData: FormData) {
   // Validate form fields
@@ -75,15 +74,12 @@ export async function login(state: LoginFormState, formData: FormData) {
   redirect("/restaurants");
 }
 
-export async function logout(state: LogoutFormState, formData: FormData) {
+export async function logout(state: LogoutFormState) {
   try {
     const response = await logoutService();
 
-    if (response?.ok) {
-      revalidatePath("/restaurants");
-    }
-    if (!response?.ok) {
-      return { error: "Error al cerrar la sesión", payload: response };
+    if (response) {
+      return revalidatePath("/restaurants");
     }
   } catch (error) {
     console.error(error);

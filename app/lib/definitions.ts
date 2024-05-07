@@ -67,12 +67,11 @@ export type LoginFormState =
   | undefined;
 
 export type LogoutFormState =
-  | {
-      error?: { message: string } | Error;
-      message?: string;
-    }
+  | void
+  | { message?: string }
+  | { error?: string }
+  | { error?: unknown }
   | undefined;
-
 export type Login = z.infer<typeof LoginSchema>;
 
 export type SessionPayload = {

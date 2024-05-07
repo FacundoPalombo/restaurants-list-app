@@ -2,7 +2,6 @@ import "server-only";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { API_BASE_URL } from "../utils/constants";
-import createHttpError from "http-errors";
 
 type CommentServiceParams = {
   restaurantId: string;
