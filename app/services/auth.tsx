@@ -163,6 +163,7 @@ export async function logout() {
     }
     if (!response?.ok) {
       const error = await response.json();
+      console.error(error);
       return { error };
     }
   } catch (error) {

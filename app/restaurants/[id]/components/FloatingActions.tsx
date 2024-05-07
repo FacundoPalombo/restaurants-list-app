@@ -18,7 +18,7 @@ export function FloatingActions() {
 
   const [shouldDelete, setShouldDelete] = useState(false);
 
-  const deleteRestaurantWithId = deleteRestaurant.bind(id);
+  const deleteRestaurantWithId = deleteRestaurant.bind(null, id as string);
 
   const [state, action] = useFormState(deleteRestaurantWithId, undefined);
 
@@ -27,7 +27,7 @@ export function FloatingActions() {
   };
 
   useEffect(() => {
-    if (state?.data) {
+    if (state?.message) {
       toast.success("Eliminado satisfactoriamente");
     }
 

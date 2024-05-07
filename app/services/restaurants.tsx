@@ -191,10 +191,13 @@ export async function deleteRestaurant({
 
     if (response?.ok) {
       const payload = await response.text();
+      console.log(response);
       revalidatePath(`/restaurants`);
       return { message: payload };
     }
     if (!response?.ok) {
+      console.log(response);
+
       const error = await response.json();
       console.error(error);
       return { error };
