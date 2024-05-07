@@ -48,18 +48,14 @@ export function InputFile() {
 
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const onInputFile: ChangeEventHandler<HTMLInputElement> = useCallback(
-    (event) => {
-      const target: HTMLInputElement = event.target;
-      if (target && target?.files?.length) {
-        setFile(target?.files[0]);
-        const fileUrl = URL.createObjectURL(target?.files[0]);
-        setFilePreview(fileUrl);
-      }
-    },
-    [fileRef]
-  );
-
+  const onInputFile: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const target: HTMLInputElement = event.target;
+    if (target && target?.files?.length) {
+      setFile(target?.files[0]);
+      const fileUrl = URL.createObjectURL(target?.files[0]);
+      setFilePreview(fileUrl);
+    }
+  };
   useEffect(() => {}, [file]);
 
   return (

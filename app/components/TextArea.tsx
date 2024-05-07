@@ -25,11 +25,11 @@ export function TextArea({
     if (isControlledComponent) {
       setText(value!);
     }
-  }, [text, value]);
+  }, [text, value, isControlledComponent]);
 
-  const handleClear = useCallback(() => {
+  const handleClear = () => {
     setText("");
-  }, [text]);
+  };
 
   const defaultOnChange: ChangeEventHandler = (e) =>
     setText((e?.target as HTMLTextAreaElement)?.value);
