@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
             Prueba técnica ©Tailor hub SL 2019 - 2024
           </p>
         </footer>
+        <Analytics />
       </body>
     </html>
   );
