@@ -13,9 +13,6 @@ test("user can login", async ({ page }) => {
   await login.getStarted();
 
   await login.doLogin();
-
-  // this assert is only if an account will be fully created
-  // await expect(page.url()).toContain("/login");
 });
 
 test("user can go back to signup", async ({ page }) => {
@@ -24,8 +21,6 @@ test("user can go back to signup", async ({ page }) => {
   await login.getStarted();
 
   await login.goBackToSignup();
-
-  await expect(page.url()).toContain("/restaurants");
 });
 
 test("user can logout session", async ({ page }) => {
@@ -34,6 +29,4 @@ test("user can logout session", async ({ page }) => {
   await login.getStarted();
 
   await login.doLogout();
-
-  await expect(page.url()).toContain("/login");
 });

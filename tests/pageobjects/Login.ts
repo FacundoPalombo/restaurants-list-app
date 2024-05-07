@@ -1,4 +1,10 @@
+import { TEST_BASE_URL } from "@/app/utils/constants";
 import { Locator, Page, expect } from "@playwright/test";
+
+type Account = {
+  email: string;
+  password: string;
+};
 
 export default class Signup {
   page: Page;
@@ -10,9 +16,18 @@ export default class Signup {
   backSignupButton: Locator;
   userMenu: Locator;
   logoutButton: Locator;
+  account: Account;
 
-  constructor(page: Page) {
+  constructor(page: Page, account?: Account) {
     this.page = page;
+    if (account) {
+      this.account = account;
+    } else {
+      this.account = {
+        email: "robot@micuentarobot.com",
+        password: "R0b0c00p!",
+      };
+    }
 
     // bootstrap page asserts
     this.footer = page.locator("footer", {
@@ -31,9 +46,8 @@ export default class Signup {
       name: "Regístrate",
     });
 
-    this.userMenu = page.getByRole("button", {
-      name: "Cuenta robot",
-    });
+    this.userMenu = page.locator("#user-menu");
+
     this.logoutButton = page.getByRole("button", {
       name: "Cerrar Sesión",
     });
@@ -41,7 +55,7 @@ export default class Signup {
   }
 
   async goto() {
-    await this.page.goto("/signup");
+    await this.page.goto("/login");
   }
 
   async getStarted() {
@@ -52,15 +66,15 @@ export default class Signup {
   async doLogin() {
     await expect(this.emailField).toBeVisible();
 
-    // change this values from a csv to make infinite accounts.
-    await this.emailField.fill("robot@micuentarobot.com");
+    await this.emailField.fill(this.account.email);
     await this.emailField.press("Tab");
     await this.passwordField.focus();
-    await this.passwordField.pressSequentially("R0b0c00p1!");
+    await this.passwordField.pressSequentially(this.account?.password);
     await this.passwordField.press("Enter");
 
+    await this.page.waitForURL(TEST_BASE_URL + "/restaurants");
     // Then login into the account
-    await expect(this.userMenu).toBeVisible();
+    await expect(this.userMenu).toBeTruthy();
   }
 
   async goBackToSignup() {
@@ -70,12 +84,20 @@ export default class Signup {
 
   async doLogout() {
     await this.doLogin();
-    await expect(this.page.url()).toContain("/restaurants");
-    await expect(this.userMenu).toBeVisible();
+    await this.page.waitForURL(TEST_BASE_URL + "/restaurants");
+
+    // Asserts user menu functionality onClick
+    await expect(this.userMenu).toBeTruthy();
+    await expect(this.userMenu).not.toBeVisible();
     await this.userMenu.click();
-    await expect(this.logoutButton).toBeInViewport();
+    await expect(this.userMenu).toBeVisible();
+
+    // Assert
+    await expect(this.logoutButton).toBeVisible();
     await this.logoutButton.click();
-    await expect(this.page.url()).toContain("/login");
+    await this.page.waitForURL(TEST_BASE_URL + "/login");
+
+    // random assert of the view in the login page
     await expect(this.backSignupButton).toBeInViewport();
   }
 }

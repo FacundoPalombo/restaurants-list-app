@@ -28,6 +28,7 @@ type ButtonProps = {
   disabled?: boolean;
   loading?: boolean;
   iconOnly?: boolean;
+  id?: string;
 };
 
 export default function Button({
@@ -47,6 +48,7 @@ export default function Button({
   disabled,
   loading,
   iconOnly,
+  id,
 }: ButtonProps) {
   const md = size === "md";
   const lg = size === "lg";
@@ -64,6 +66,7 @@ export default function Button({
     onClick,
     tabIndex,
     disabled,
+    id,
   };
 
   const htmlProps = {

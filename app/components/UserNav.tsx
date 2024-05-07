@@ -34,6 +34,7 @@ export default function UserNav({ username }: UserNavProps) {
     <header className="flex flex-row-reverse my-4">
       <nav className="flex flex-col justify-end w-max">
         <button
+          id="user-menu"
           className="flex flex-row align-text-bottom md:text-xl"
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -83,6 +84,7 @@ function Logout() {
   return (
     <Button
       label="Cerrar Sesión"
+      id="logout"
       type="submit"
       hierarchy="loud"
       htmlFor="logout"

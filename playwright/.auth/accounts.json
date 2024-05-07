@@ -1,0 +1,5 @@
+[
+  { "user": "robot_e2e@chromium.com", "password": "R0b0c0p." },
+  { "user": "robot_e2e@firefox.com", "password": "R0b0c0p." },
+  { "user": "robot_e2e@webkit.com", "password": "R0b0c0p." }
+]
