@@ -7,7 +7,7 @@ test("page loads", async ({ page }) => {
   await home.getStarted();
 });
 
-test("page navigates to login", async ({ page }) => {
+test("page navigates to signup", async ({ page }) => {
   const home = new Home(page);
 
   await home.getStarted();

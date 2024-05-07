@@ -6,7 +6,7 @@ export default class Home {
   welcomeText: Locator;
   cta: Locator;
 
-  loginText: Locator;
+  signupText: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -16,10 +16,14 @@ export default class Home {
       hasText: "Prueba técnica ©Tailor hub SL 2019 - 2024",
     });
     this.welcomeText = page.getByText("Hola, ");
-    this.cta = page.getByRole("link", { name: "Entrar" });
+    this.cta = page.getByRole("button", {
+      name: "Entra a ver los restaurantes",
+    });
 
     // Button redirects asserts
-    this.loginText = page.getByText("Login page");
+    this.signupText = page.getByRole("button", {
+      name: "Volver al inicio de sesión",
+    });
   }
 
   async goto() {
@@ -36,6 +40,6 @@ export default class Home {
   async buttonRedirects() {
     await this.getStarted();
     await this.cta.click();
-    await expect(this.loginText).toBeVisible();
+    await expect(this.signupText).toBeVisible();
   }
 }

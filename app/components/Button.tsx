@@ -124,6 +124,7 @@ export default function Button({
     return (
       <Link
         role="button"
+        name={label}
         className={buttonBaseStyles}
         {...(htmlProps as any)}
         {...(genericProps as any)}
