@@ -93,7 +93,7 @@ export async function updateRestaurant(
       restaurantId,
       formData,
     });
-    if (response) return "Updated";
+    if (response) return { message: "Updated" };
   } catch (error) {
     return { error };
   }

@@ -15,18 +15,6 @@ export default function Form() {
   const { id } = useParams();
   const updateRestaurantWithId = updateRestaurant.bind(null, id as string);
 
-  const [state, action] = useFormState(updateRestaurantWithId, undefined);
-
-  useEffect(() => {
-    if ((state as any)?.error) {
-      toast.error("Ups, hubo un error inesperado!");
-    }
-    if ((state as any)?.errors)
-      toast.error(
-        "Hubo un error actualizando el restaurante, verifica la información proporcionada."
-      );
-  }, [state]);
-
   return (
     <form
       action={updateRestaurantWithId}

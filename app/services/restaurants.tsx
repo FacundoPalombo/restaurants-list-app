@@ -146,7 +146,7 @@ export async function updateRestaurant({
     console.log(response);
     if (response?.ok) {
       const payload = await response.text();
-      revalidatePath(`/restaurants/[id]`);
+      revalidatePath(`/restaurants/[id]`, "page");
       return { message: payload };
     }
     if (!response?.ok) {
